@@ -38,8 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #'accounts.apps.AccountsConfig',
+    'accounts.apps.AccountsConfig',
     'users.apps.UsersConfig',
+    'budget.apps.BudgetConfig',
 ]
 
 MIDDLEWARE = [
@@ -78,8 +79,12 @@ WSGI_APPLICATION = 'budgetingapp.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE':'django.db.backends.postgresql',
+        'NAME':'budgetingapp',
+        'USER':'budgetingappuser',
+        'PASSWORD':'password',
+        'HOST':'localhost',
+        'PORT': '5432'
     }
 }
 
@@ -136,3 +141,5 @@ STATICFILES_DIRS = [
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 AUTH_USER_MODEL = 'users.CustomUser'
+
+# User sample log in p4ss123$ and username b
