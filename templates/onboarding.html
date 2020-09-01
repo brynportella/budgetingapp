@@ -1,0 +1,22 @@
+<!-- templates/onboarding.html -->
+{% extends 'base.html' %}
+
+{% block title %}Onboarding{% endblock %}
+
+{% block content %}
+<div class="card">
+  <div class="card-body">
+    <div class="card-title">
+      <!-- TODO: Need to make a first and last name! -->
+      <h2>Welcome to the SaverLife budgeting app! Let's get started<h2>
+    </div>
+    <div class="card-text">
+      {% include 'onboarding/navbar.html' with next=next prev=prev %}
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}
+
+

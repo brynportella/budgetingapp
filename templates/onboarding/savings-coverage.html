@@ -1,0 +1,51 @@
+<!-- templates/onboarding/savings-coverage.html -->
+{% extends 'base.html' %}
+
+{% block title %}Savings Coverage{% endblock %}
+
+{% block content %}
+<div class="card">
+  <div class="card-body">
+    <div class="card-title">
+      <!-- TODO: Need to make a first and last name! -->
+      <h2>Spending versus Income<h2>
+    </div>
+    <div class="card-text">
+      <p>How long can your short-term savings cover your current level of spending?</p>
+      <div class="btn-group-vertical">
+        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+          <!-- <form action="% url 'polls:vote' question.id %}" method="post"> -->
+          <!-- % csrf_token %} -->
+          <!-- Need to figures this out -->
+          <form>
+            
+            <input type="radio" name="options" id="option1" value="1">
+            <label for="option1" class="btn btn-secondary active">6 months or more</label>
+            <br/>
+
+            <input type="radio" name="options" id="option2"  value="2">
+            <label for="option2" class="btn btn-secondary active">3 to 5 months</label>
+            <br/>
+
+            <input type="radio" name="options" id="option3" value="3">
+            <label for="option3" class="btn btn-secondary active">1 to 3 months</label>
+            <br/>
+
+            <input type="radio" name="options" id="option4"  value="4">
+            <label for="option4" class="btn btn-secondary active">1 to 2 weeks</label>
+            <br/>
+
+            <input type="radio" name="options" id="option5" value="5">
+            <label for="option5" class="btn btn-secondary active">Less than 1 week</label>
+            <br/>
+          </form>
+        </div>
+      </div>
+      {% include 'onboarding/navbar.html' with next=next prev=prev %} 
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+

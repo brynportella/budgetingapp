@@ -20,9 +20,16 @@ from django.urls import include
 from django.conf import settings
 from django.conf.urls.static import static
 
+from . import views
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('users/', include('users.urls')),
     path('users/', include('django.contrib.auth.urls')),
     path('', TemplateView.as_view(template_name='home.html'), name='home'), 
-]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    path('welcome.html', TemplateView.as_view(template_name='welcome.html'), name='welcome'), 
+    path('onboarding.html', TemplateView.as_view(template_name='onboarding.html'), name='onboarding'), 
+    path('onboarding/saving-goal.html', views.saving_goal, name='saving-goal'), 
+    path('onboarding/link-savings.html', views.link_savings, name='link-savings'), 
+    path('onboarding/spending-vs-income.html', views.spending_vs_income, name='spending-vs-income'), 
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
