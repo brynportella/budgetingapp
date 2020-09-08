@@ -4,22 +4,30 @@ from django.views import generic
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
-from .forms import SavingGoalForm
+from .forms import OnboardingForm
 
 
 #############################################################################
 ############################ Temporary Templates ############################
 #############################################################################
 
-# class Welcome(generic.DetailView):
-#     template_name = 'welcome.html'
-
-# class Onboarding(generic.DetailView):
-#     template_name = 'onboarding.html'
-
-def onboarding():
-  return render(request, 'onboarding.html', {'prev': 'saving-goal',
-                                             'next': ''})
+def onboarding(request):
+  # if this is a POST request we need to process the form data
+  if request.method == 'POST':
+    # create a form instance and populate it with data from the request:
+    form = OnboardingForm(request.POST)
+    # check whether it's valid:
+    if form.is_valid():
+      # process the data in form.cleaned_data as required
+      # TODO: What to do here?
+      print(form.cleaned_data)
+      # redirect to a new URL:
+      return HttpResponseRedirect('home.html')
+    else:
+      print("FORM NOT VALID")
+  else:
+    form = OnboardingForm()
+  return render(request, 'onboarding.html', {'form': form})
 
 def saving_goal(request):
   # if this is a POST request we need to process the form data
