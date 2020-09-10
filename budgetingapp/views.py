@@ -4,7 +4,9 @@ from django.views import generic
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
-from .forms import OnboardingForm
+
+from .forms import OnboardingForm, choices
+from accounts.models import AccountType, Account, AccountEntry
 
 
 #############################################################################
@@ -19,42 +21,39 @@ def onboarding(request):
     # check whether it's valid:
     if form.is_valid():
       # process the data in form.cleaned_data as required
-      # TODO: What to do here?
-      print(form.cleaned_data)
+      # Set up bank account
+      # More personal stuff
+      # Store up saving goal
+      # Store up self assessment
+      example_cleaned_data= """{
+            'bank_name': 'Bank name',
+            'bank_account_name': 'Bank account name',
+            'bank_account_number': 12345,
+            'saving_goal_name': 'Saving goal',
+            'saving_goal_amount': Decimal('100'),
+            'spending': 'spending3',
+            'income_question_pay_period': Decimal('1500'),
+            'income_question_vary': False,
+            'income_question_pay_freq': Decimal('3'),
+            'bill_pay': 'billpay4',
+            'bill_rent': Decimal('500'),
+            'bill_utilities': Decimal('200'),
+            'bill_food': Decimal('300'),
+            'bill_health': Decimal('100'),
+            'bill_other': Decimal('400'),
+            'savings_coverage': 'savingscoverage3',
+            'confidence': 'fincon3',
+            'debt': 'debt4',
+            'credit_score': 'creditscore4',
+            'insurance': 'insurance4',
+            'ethnicity': ['ethnicity2', 'ethnicity3'],
+            'veteran': False
+      }"""
       # redirect to a new URL:
       return HttpResponseRedirect('home.html')
-    else:
-      print("FORM NOT VALID")
   else:
     form = OnboardingForm()
   return render(request, 'onboarding.html', {'form': form})
-
-def saving_goal(request):
-  # if this is a POST request we need to process the form data
-  if request.method == 'POST':
-    # create a form instance and populate it with data from the request:
-    form = SavingGoalForm(request.POST)
-    # check whether it's valid:
-    if form.is_valid():
-      # process the data in form.cleaned_data as required
-      # TODO: What to do here?
-      # redirect to a new URL:
-      return HttpResponseRedirect('link-savings')
-
-  # if a GET (or any other method) we'll create a blank form
-  else:
-    form = SavingGoalForm()
-
-  return render(request, 'onboarding/saving-goal.html', {'form': form,
-                                                         'next': 'link-savings'})
-
-def link_savings(request):
-  return render(request, 'onboarding/link-savings.html', {'prev': 'saving-goal',
-                                                          'next':'spending-vs-income'})
-
-
-def spending_vs_income(request):
-  return render(request, 'onboarding/spending-vs-income.html', {'prev': 'link-savings'})
 
 
 

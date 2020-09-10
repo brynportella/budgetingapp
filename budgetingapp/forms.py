@@ -48,6 +48,17 @@ ethnicity_choices=[ ('ethnicity1', 'Caucasian'),
                     ('ethnicity7', 'Other'),
                     ('ethnicity8', 'Prefer not to say'), ]
 
+choices = {
+  'spending': spending_choices,
+  'bill_pay': bill_pay_choices,
+  'savings_coverage': savings_coverage_choices,
+  'confidence': confidence_choices,
+  'credit_score': credit_score_choices,
+  'debt': debt_choices,
+  'insurance': insurance_choices,
+  'ethnicity': ethnicity_choices,
+}
+
 class OnboardingForm(forms.Form):
   # Tab 1: Bank
   bank_name = forms.CharField(label='Bank name', max_length=100)
