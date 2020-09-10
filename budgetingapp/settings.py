@@ -84,7 +84,11 @@ DATABASES = {
         'USER':'budgetingappuser',
         'PASSWORD':'password',
         'HOST':'localhost',
-        'PORT': '5432'
+        'PORT': '5432', 
+        'TEST' : {
+            'NAME' : 'testdatabase',
+            'USER':'budgetingappuser', 
+        }
     }
 }
 
