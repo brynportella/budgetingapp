@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Budget{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<div class="container-fluid">
+	<div class="card">
+		<div class="card-body">
+			<div class="card-title">
+			  <h2>Income</h2>
+			</div>
+			<div class="card-text">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Name</th>
+              <th scope="col">Start Date</th>
+              <th scope="col">End Date</th>
+              <th scope="col">Amount</th>
+              <th scope="col">Frequency</th>
+              <th scope="col">Certainty</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for u_i in user_incomes %}
+            <tr>
+              <th scope="row">{{ forloop.counter }}</th>
+              <td>{{ u_i.income_name }}</td>
+              <td>{{ u_i.start_date|date:"M d Y" }}</td>
+              <td>{{ u_i.end_date|date:"M d Y" }}</td>
+              <td>{{ u_i.amount }}</td>
+              <td>{{ u_i.recurrence_freq }}</td>
+              <td>{{ u_i.certainty }}</td>
+              <!-- 
+              -->
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="container-fluid">
+	<div class="card">
+		<div class="card-body">
+			<div class="card-title">
+			  <h2>Accounts</h2>
+			</div>
+			<div class="card-text">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Name</th>
+              <th scope="col">Account Type</th>
+              <th scope="col">Balance</th>
+              <th scope="col">Interest</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for u_a in user_accounts %}
+            <tr>
+              <th scope="row">{{ forloop.counter }}</th>
+              <td>{{ u_a.account_name }}</td>
+              <td>{{ u_a.account_type }}</td>
+              <td>{{ u_a.account_balance }}</td>
+              <td>{{ u_a.interest_rate }}</td>
+              <!-- 
+              -->
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="container-fluid">
+	<div class="card">
+		<div class="card-body">
+			<div class="card-title">
+			  <h2>Budget</h2>
+			</div>
+			<div class="card-text">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Type</th>
+              <th scope="col">Amount</th>
+              <th scope="col">Importance</th>
+              <th scope="col">Frequency</th>
+              <th scope="col">Start Date</th>
+              <th scope="col">End Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for u_b in user_budget %}
+            <tr>
+              <th scope="row">{{ forloop.counter }}</th>
+              <td>{{ u_b.expense_type }}</td>
+              <td>{{ u_b.amount }}</td>
+              <td>{{ u_b.importance }}</td>
+              <td>{{ u_b.recurrence_freq }}</td>
+              <td>{{ u_b.start_date|date:"M d Y" }}</td>
+              <td>{{ u_b.end_date|date:"M d Y" }}</td>
+              <!-- 
+              -->
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+{% else %}
+This is an unauthenticated user
+{% endif %}
+{% endblock %}
+

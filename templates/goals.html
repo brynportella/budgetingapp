@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Goals{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+This is a goals page
+{% else %}
+This is an unauthenticated user
+{% endif %}
+{% endblock %}
+

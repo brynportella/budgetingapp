@@ -3,15 +3,40 @@ from django.urls import reverse_lazy
 from django.views import generic
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-
+from django.views.generic.base import TemplateView
 
 from .forms import OnboardingForm, choices
 from accounts.models import AccountType, Account, AccountEntry
+from budget.models import (AnticipatedTransaction, ExpenseType, BudgetExpense,
+                           Income, IncomeToAccount, BudgetExpenseToAccount)
+# from goals.model import # TODO Need goals
 
+"""
+commented out html:
+<div class="container-fluid">
+	<div class="card">
+		<div class="card-body">
+			<div class="card-title">
+				Hi {{ user.username }}!
+			</div>
+			<div class="card-text">
+				<a href="{% url 'logout' %}">logout</a>
+			</div>
+		</div>
+	</div>
+</div>
 
-#############################################################################
-############################ Temporary Templates ############################
-#############################################################################
+"""
+def home(request):
+  is_pay_day = True
+  got_goals = True
+  got_bill = True
+  context = {
+    'is_pay_day' : is_pay_day,
+    'got_goals' : got_goals,
+    'got_bill' : got_bill,
+  }
+  return render(request, 'home.html', context)
 
 def onboarding(request):
   # if this is a POST request we need to process the form data

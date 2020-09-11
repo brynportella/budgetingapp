@@ -14,6 +14,7 @@ class AnticipatedTransaction(models.Model):
         MONTHLY = 3
         TWICE_A_MONTH = 4 # Meaning on the first and the 15 or 16 
         ONCE = 0
+        # TODO: Annually??
     recurrence_freq = models.IntegerField(choices = RecurrenceFreq.choices)
     class Meta:
         abstract = True
