@@ -4,6 +4,7 @@ from django.views import generic
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views.generic.base import TemplateView
+from django.utils import timezone
 
 from .forms import OnboardingForm, choices
 from accounts.models import AccountType, Account, AccountEntry
@@ -11,7 +12,11 @@ from budget.models import (AnticipatedTransaction, ExpenseType, BudgetExpense,
                            Income, IncomeToAccount, BudgetExpenseToAccount)
 # from goals.model import # TODO Need goals
 
+import datetime
+
+######################################################################
 ##### DEBUG #####
+######################################################################
 ##### WE WILL REPLACE THIS WITH GOALS MODEL #####
 ##### I DO NOT KNOW IF THESE FIELDS WILL BE USED #####
 class TempGoal:
@@ -25,27 +30,74 @@ def test(request):
   context = {}
   return render(request, 'test.html', context)
 
+# TODO: This should probably be tied to the class itself...
+RecurrenceFreqString = {
+  AnticipatedTransaction.RecurrenceFreq.ONCE : "once",
+  AnticipatedTransaction.RecurrenceFreq.WEEKLY : "weekly",
+  AnticipatedTransaction.RecurrenceFreq.BIWEEKLY : "biweekly",
+  AnticipatedTransaction.RecurrenceFreq.MONTHLY : "monthly",
+  AnticipatedTransaction.RecurrenceFreq.TWICE_A_MONTH : "twice a month",
+}
+
+# TODO: This should also probably be tied to class
+RecurrenceFreqToNumTimesPerMonth = {
+  AnticipatedTransaction.RecurrenceFreq.ONCE : 1,
+  AnticipatedTransaction.RecurrenceFreq.WEEKLY : 4,
+  AnticipatedTransaction.RecurrenceFreq.BIWEEKLY : 2,
+  AnticipatedTransaction.RecurrenceFreq.MONTHLY : 1,
+  AnticipatedTransaction.RecurrenceFreq.TWICE_A_MONTH : 2,
+}
+
+# TODO: We should make this flexible to handle any time period
+def budgets_to_monthly(budgets):
+  now = timezone.now() # TODO: Need to make this the client timezone
+  s = 0
+  for budget in budgets:
+    # TODO: This logic is not all technically correct
+    if budget.start_date <= now <= budget.end_date:
+      s += RecurrenceFreqToNumTimesPerMonth[budget.recurrence_freq]*budget.amount
+  return s
+
+
+######################################################################
+##### END DEBUG #####
+######################################################################
+
+
+
 def home(request):
+  user = request.user
   # DEBUG: All placeholders
+  # Pop-ups
   is_pay_day = True
   got_goals = True
   got_bill = True
+  # Recommendations logic
   recommendations_text = [
     'Recommendation placeholder text 1',
     'Recommendation placeholder text 2',
     'Recommendation placeholder text 3',
   ]
+  # Goals
   goals = [
     TempGoal('Save 100 Dollars', 25, 100),
     TempGoal('Pay Debt', 0.9*2000, 2000),
     TempGoal('Nice dinner out', 0.35*80, 80),
   ]
+  # Get cash
+  user_accounts = Account.objects.filter(user=user)
+  cash = sum([ x.account_balance for x in user_accounts ])
+  user_budget = BudgetExpense.objects.filter(user=user)
+  bills = budgets_to_monthly([ x for x in user_budget ])
+  # Build contex
   context = {
     'is_pay_day' : is_pay_day,
     'got_goals' : got_goals,
     'got_bill' : got_bill,
     'recommendations_text': recommendations_text,
     'goals': goals,
+    'cash' : cash,
+    'bills' : bills,
   }
   return render(request, 'home.html', context)
 

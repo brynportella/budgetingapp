@@ -76,11 +76,12 @@
 				<tbody>
 					<tr class="alert-success">
 						<td>Cash</td>
-						<td>$00.00</td>
+						<td>${{ cash|floatformat:"2" }}</td>
 					</tr>
 					<tr class="alert-warning">
-						<td>Bills over the next</td>
-						<td>$0.00</td>
+            <!-- TODO: Make month modifiable -->
+						<td>Bills over the next month</td>
+						<td>${{ bills|floatformat:"2" }}</td>
 					</tr>
 				</tbody>
 			</table>
