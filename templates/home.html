@@ -4,8 +4,23 @@
 
 {% block title %}Home{% endblock %}
 
+{% block styles %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'budgetingapp/css/home.css' %}" />
+{% endblock %}
+
 {% block content %}
 {% if user.is_authenticated %}
+<div id="goodTime" class="container-fluid">
+	<div class="card">
+		<div class="card-body">
+			<div class="card-title">
+        <!-- <h4> </h4> -->
+        <span id="goodTimeText">Asdf-gasdf</span>, {{ user.first_name }}!
+			</div>
+		</div>
+	</div>
+</div>
 {% if is_pay_day %}
 <div id="payDay" class="container-fluid">
 	<div class="card">
@@ -117,7 +132,7 @@
 								d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
 						</svg>
 					</button>
-					<h5>Goal</h5>
+					<h5>Goals</h5>
 					<button type="button" class="close" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
@@ -129,21 +144,17 @@
 <div class="container-fluid">
 	<div class="card">
 		<div class="card-body">
+      {% for goal in goals %}
+			<div class="card-text">
+        <h5>{{ goal.name }}</h5>
+        You have reached ${{ goal.value }} of your goal of ${{ goal.goal }}.
+      </div>
 			<div class="progress">
-				<div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25"
-					aria-valuemin="0" aria-valuemax="100"></div>
+				<div class="progress-bar bg-success" role="progressbar"
+             style="width: {{ goal.percentage }}%" aria-valuenow="{{ goal.percentage }}"
+             aria-valuemin="0" aria-valuemax="100"></div>
 			</div>
-			<div class="card-text">You are x amount close to goals.</div>
-			<div class="progress">
-				<div class="progress-bar bg-success" role="progressbar" style="width: 90%" aria-valuenow="90"
-					aria-valuemin="90" aria-valuemax="100"></div>
-			</div>
-			<div class="card-text">You are x amount close to goals.</div>
-			<div class="progress">
-				<div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25"
-					aria-valuemin="0" aria-valuemax="100"></div>
-			</div>
-			<div class="card-text">You are x amount close to goals.</div>
+      {% endfor %}
 		</div>
 	</div>
 </div>

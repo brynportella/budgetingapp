@@ -11,30 +11,41 @@ from budget.models import (AnticipatedTransaction, ExpenseType, BudgetExpense,
                            Income, IncomeToAccount, BudgetExpenseToAccount)
 # from goals.model import # TODO Need goals
 
-"""
-commented out html:
-<div class="container-fluid">
-	<div class="card">
-		<div class="card-body">
-			<div class="card-title">
-				Hi {{ user.username }}!
-			</div>
-			<div class="card-text">
-				<a href="{% url 'logout' %}">logout</a>
-			</div>
-		</div>
-	</div>
-</div>
+##### DEBUG #####
+##### WE WILL REPLACE THIS WITH GOALS MODEL #####
+##### I DO NOT KNOW IF THESE FIELDS WILL BE USED #####
+class TempGoal:
+  def __init__(self, name, value, goal):
+    self.name = name
+    self.value = value
+    self.goal = goal
+    self.percentage = int(100*value / goal)
 
-"""
+def test(request):
+  context = {}
+  return render(request, 'test.html', context)
+
 def home(request):
+  # DEBUG: All placeholders
   is_pay_day = True
   got_goals = True
   got_bill = True
+  recommendations_text = [
+    'Recommendation placeholder text 1',
+    'Recommendation placeholder text 2',
+    'Recommendation placeholder text 3',
+  ]
+  goals = [
+    TempGoal('Save 100 Dollars', 25, 100),
+    TempGoal('Pay Debt', 0.9*2000, 2000),
+    TempGoal('Nice dinner out', 0.35*80, 80),
+  ]
   context = {
     'is_pay_day' : is_pay_day,
     'got_goals' : got_goals,
     'got_bill' : got_bill,
+    'recommendations_text': recommendations_text,
+    'goals': goals,
   }
   return render(request, 'home.html', context)
 

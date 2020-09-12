@@ -1,0 +1,41 @@
+<!-- templates/test.html -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Testing{% endblock %}
+
+{% block styles %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'budgetingapp/css/home.css' %}" />
+{% endblock %}
+
+{% block content %}
+<div id="goodTime" class="container-fluid">
+	<div class="card">
+		<div class="card-body">
+			<div class="card-title">
+        <!-- <h4> </h4> -->
+        <span id="goodTimeText">Asdf-gasdf</span>, {{ user.first_name }}!
+			</div>
+		</div>
+	</div>
+</div>
+<div id="badTime" class="container-fluid">
+	<div class="card">
+		<div class="card-body">
+			<div class="card-title">
+        <!-- <h4> </h4> -->
+        <a class="btn btn-secondary" onclick="hideCard('badTime')" href="#">Bad Time</a> 
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ block.super }}
+<script src="{% static 'budgetingapp/js/home.js' %}"></script>
+{% endblock %}
+
+
+
