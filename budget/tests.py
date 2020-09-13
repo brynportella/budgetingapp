@@ -5,7 +5,9 @@ from budget.models import ExpenseType
 from datetime import datetime
 from datetime import timedelta
 from budget.services import get_all_upcoming_budget_expenses
+from budget.services import get_budget_expense_occurences
 from django.utils import timezone
+from calendar import monthrange
 
 # Create your tests here.
 class TestBudgetExpenseServices(TestCase):
@@ -25,6 +27,7 @@ class TestBudgetExpenseServices(TestCase):
         car_payment_end_date = today_start_date - timedelta(days = 2)
 
         """ Set up budget expenses """
+        """ Internet Budget Expense (id=100) """
         internet_budget_expense = BudgetExpense.objects.create(\
                                     user = test_user, \
                                     amount = 40.00, \
@@ -32,8 +35,11 @@ class TestBudgetExpenseServices(TestCase):
                                     importance = 1, \
                                     end_date = internet_end_date, \
                                     start_date = today_start_date, \
-                                    expense_type = internet_expense_type)
+                                    expense_type = internet_expense_type, \
+                                    expense_name = "Internet expense name", \
+                                    id = 100)
 
+        """ Rent Budget Expense (id=200) """
         rent_budget_expense = BudgetExpense.objects.create(\
                                     user = test_user, \
                                     amount = 500.00, \
@@ -41,8 +47,11 @@ class TestBudgetExpenseServices(TestCase):
                                     importance = 1, \
                                     end_date = rent_end_date, \
                                     start_date = today_start_date, \
-                                    expense_type = rent_expense_type)
-
+                                    expense_type = rent_expense_type,\
+                                    expense_name = "Rent expense name",\
+                                    id = 200)
+        
+        """ Car Paymeent Expense (id=300) """
         car_payment_budget_expense = BudgetExpense.objects.create( \
                                     user = test_user, \
                                     amount = 200.00, \
@@ -50,14 +59,40 @@ class TestBudgetExpenseServices(TestCase):
                                     importance = 1, \
                                     end_date = car_payment_end_date, \
                                     start_date = car_payment_start_date, \
-                                    expense_type = car_payment_expense_type)
+                                    expense_type = car_payment_expense_type, \
+                                    expense_name = "Car payment expense name",\
+                                    id = 300)
 
     def test_get_all_upcoming_expenses(self):
         """ 
         Can successfully pull any expenses that have not passed.
         """
-        result = get_all_upcoming_budget_expenses()
-        for ele in result:
+        actual_result = get_all_upcoming_budget_expenses()
+        for ele in actual_result:
             print(ele)
+        expected_result = [BudgetExpense.objects.get(id=100), BudgetExpense.objects.get(id=200)]
+        print()
+        self.assertEquals(expected_result, list(actual_result))
+
+    def test_get_occurrences_monthly_mid_month(self):
+        """
+        Can successfully get all occurrences of a specific expense
+
+        """
+        expense = BudgetExpense.objects.get(id = 100)
+        start_date = expense.start_date
+        end_date = start_date + timedelta(days = 40)
+        result = get_budget_expense_occurences(expense = expense, start_date = start_date, end_date = end_date)
+        result_dates = []
+        for current_expense in result.keys():
+            print(current_expense)
+            result_dates.extend(result.get(current_expense))
+            for current_date in result_dates:
+                print(current_date)
+        print()
+        date_1 = start_date
+        days_in_month = monthrange(start_date.year, start_date.month)[1]
+        date_2 = start_date + timedelta(days = days_in_month)
         
-        self.assertEquals([], result)
+        self.assertEquals([date_1, date_2], result_dates)
+
