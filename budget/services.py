@@ -8,6 +8,11 @@ from calendar import monthrange
 def get_all_upcoming_budget_expenses(user):
     return BudgetExpense.objects.filter(user = user).filter(end_date__gte = timezone.now())
 
+def get_all_budget_expenses_between_dates(user, begin_date, stop_date):
+    result = BudgetExpense.objects.filter(user = user) 
+    
+    return 
+
 def get_budget_expense_occurences(expense, start_date, end_date):
     start_date = start_date if start_date < expense.start_date else expense.start_date
     end_date = end_date if end_date < expense.end_date else expense.end_date
