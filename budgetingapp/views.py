@@ -69,9 +69,9 @@ def home(request):
   user = request.user
   # DEBUG: All placeholders
   # Pop-ups
-  is_pay_day = True
-  got_goals = True
-  got_bill = True
+  is_pay_day = False
+  got_goals = False
+  got_bill = False
   # Recommendations logic
   recommendations_text = [
     'Recommendation placeholder text 1',
