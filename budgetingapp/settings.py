@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'users.apps.UsersConfig',
     'budget.apps.BudgetConfig',
-    'goals.apps.GoalsConfig'
+    'goals.apps.GoalsConfig', 
+    'recommendations.apps.RecommendationsConfig'
 ]
 
 MIDDLEWARE = [

@@ -89,7 +89,6 @@ class TestBudgetExpenseServices(TestCase):
     def test_get_occurrences_monthly_mid_month(self):
         """
         Can successfully get all occurrences of a specific expense
-
         """
         print("Get monthly occurrences")
         expense = BudgetExpense.objects.get(id = 100)
