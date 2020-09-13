@@ -78,7 +78,8 @@ class TestBudgetExpenseServices(TestCase):
         """ 
         Can successfully pull any expenses that have not passed.
         """
-        actual_result = get_all_upcoming_budget_expenses()
+        user = CustomUser.objects.get(username = "Test User")
+        actual_result = get_all_upcoming_budget_expenses(user = user)
         for ele in actual_result:
             print(ele)
         expected_result = [BudgetExpense.objects.get(id=100), BudgetExpense.objects.get(id=200)]
