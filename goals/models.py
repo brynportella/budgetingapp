@@ -4,13 +4,22 @@ from django.utils import timezone
 
 
 # Create your models here.
+
 class GoalType(models.Model):
+    class GoalCategory(models.TextChoices):
+        SAVING = 'SAVING'
+        PAYING_DOWN_DEBT = 'PAYING_DOWN_DEBT'
+        INVESTING = 'INVESTING'
+    goal_category = models.CharField(
+        max_length = 100,
+        choices = GoalCategory.choices
+    )
     goal_name = models.CharField(max_length = 100)
     goal_description = models.TextField()
     is_private = models.BooleanField()
     user = models.ForeignKey(CustomUser, null = True, blank = True, on_delete = models.CASCADE)
     def __str__(self):
-        return self.goal_name
+        return self.self.goal_name
 
 class Goal(models.Model):
     goal_type = models.ForeignKey(GoalType, on_delete  = models.RESTRICT)
