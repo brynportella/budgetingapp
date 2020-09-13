@@ -27,19 +27,26 @@ def get_budget_expense_occurences(expense, start_date, end_date):
     current_occurence = start_date
     while(current_occurence <= end_date):
         occurrences.append(current_occurence)
-        if recurrence_freq == 1 | recurrence_freq == 2:
+        print("Added "+current_occurence.__str__())
+        if recurrence_freq == 1 or recurrence_freq == 2:
             current_occurence += interval
+            print("Now current_occurrence is "+ current_occurence.__str__())
         # Monthly
         elif recurrence_freq == 3:
+            print("Monthly")
             if is_last_day_of_month(current_occurence):
                 current_occurence = get_last_day_of_next_month(current_occurence)
             else: 
                 current_occurence += timedelta(days = monthrange(current_occurence.year, current_occurence.month)[1])
         # Twice a month
         elif recurrence_freq == 4:
+            print("Twice a month")
             if current_occurence.day == 1:
                 current_occurence += timedelta(days = 14)
+            else:
+                current_occurence = get_last_day_of_month(current_occurence)+timedelta(days=1)
         else:
+            print("Once")
             break
     expense_occurrences = {expense : occurrences}
     return expense_occurrences

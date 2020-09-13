@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'users.apps.UsersConfig',
     'budget.apps.BudgetConfig',
+    'goals.apps.GoalsConfig'
 ]
 
 MIDDLEWARE = [

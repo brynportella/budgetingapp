@@ -18,6 +18,7 @@ class TestBudgetExpenseServices(TestCase):
         rent_expense_type = ExpenseType.objects.create(expense_type_name="Rent")
         internet_expense_type = ExpenseType.objects.create(expense_type_name="Internet")
         car_payment_expense_type = ExpenseType.objects.create(expense_type_name="Car Payment")
+        grocery_expense_type = ExpenseType.objects.create(expense_type_name = "Groceries")
 
         """ Set up dates """
         today_start_date = timezone.now()
@@ -62,7 +63,17 @@ class TestBudgetExpenseServices(TestCase):
                                     expense_type = car_payment_expense_type, \
                                     expense_name = "Car payment expense name",\
                                     id = 300)
-
+        """ Weekly Groceries expense id = 400 """
+        grocery_budget_expense = BudgetExpense.objects.create( \
+                                    user = test_user, \
+                                    amount = 100.00, \
+                                    recurrence_freq = 1, \
+                                    importance = 1, \
+                                    end_date = car_payment_end_date, \
+                                    start_date = car_payment_start_date, \
+                                    expense_type = grocery_expense_type, \
+                                    expense_name = "Grocery expense name",\
+                                    id = 400)
     def test_get_all_upcoming_expenses(self):
         """ 
         Can successfully pull any expenses that have not passed.
@@ -79,6 +90,7 @@ class TestBudgetExpenseServices(TestCase):
         Can successfully get all occurrences of a specific expense
 
         """
+        print("Get monthly occurrences")
         expense = BudgetExpense.objects.get(id = 100)
         start_date = expense.start_date
         end_date = start_date + timedelta(days = 40)
@@ -96,3 +108,29 @@ class TestBudgetExpenseServices(TestCase):
         
         self.assertEquals([date_1, date_2], result_dates)
 
+    def test_get_occurences_weekly(self):
+        """
+        Based on an expense that occurs weekly get all occurences within a 
+        particular time frame
+        """
+        print("Get weekly occurrences")
+        expense = BudgetExpense.objects.get(id = 400)
+        start_date = expense.start_date
+        end_date = start_date + timedelta(days = 40)
+        result = get_budget_expense_occurences(expense = expense, start_date = start_date, end_date = end_date)
+        result_dates = []
+        print("End date "+end_date.__str__())
+        print("Expense end date "+expense.end_date.__str__())
+        for current_expense in result.keys():
+            print(current_expense)
+            result_dates.extend(result.get(current_expense))
+            for current_date in result_dates:
+                print(current_date)
+        print()
+        expected_dates = []
+        current_date = start_date
+        while current_date < end_date: 
+            expected_dates.append(current_date)
+            current_date += timedelta(days =  7)
+
+        self.assertEquals(expected_dates, result_dates)
