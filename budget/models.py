@@ -2,6 +2,7 @@ from django.db import models
 from users.models import CustomUser
 from django.utils import timezone
 from accounts.models import Account
+from datetime import datetime
 
 class AnticipatedTransaction(models.Model):
     user = models.ForeignKey(CustomUser, on_delete = models.CASCADE)
@@ -25,6 +26,7 @@ class ExpenseType(models.Model):
         return self.expense_type_name
 
 class BudgetExpense(AnticipatedTransaction):
+    expense_name = models.CharField(max_length=150)
     class Importance(models.IntegerChoices):
         NECESSITY = 1 # Most important expenses
         BASIC_COMFORT = 2 # Create a baseline quality of life
