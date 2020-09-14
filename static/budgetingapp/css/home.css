@@ -1,3 +1,5 @@
+.svg-circleplus-home { height: 20px; stroke: red;  }
+
 #goodTime {
     -moz-animation: cssAnimation 0s ease-in 5s forwards;
     /* Firefox */
@@ -88,4 +90,5 @@ $curve: cubic-bezier(0.650, 0.000, 0.450, 1.000);
     box-shadow: inset 0px 0px 0px 30px $green;
   }
 }
+
 
