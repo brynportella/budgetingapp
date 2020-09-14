@@ -142,6 +142,11 @@
         <h5>{{ goal.name }}</h5>
         You have reached ${{ goal.value }} of your goal of ${{ goal.goal }}.
       </div>
+      <div>
+        <canvas id="goalProgress{{ forloop.counter }}" width="440" height="220">
+          Canvas not available. Progress: <span id=goalValue{{ forloop.counter }}>{{ goal.percentage }}</span> percent.
+        </canvas>
+      </div>
 			<div class="progress">
 				<div class="progress-bar bg-success" role="progressbar"
              style="width: {{ goal.percentage }}%" aria-valuenow="{{ goal.percentage }}"

@@ -10,26 +10,26 @@
 {% endblock %}
 
 {% block content %}
-<div id="goodTime" class="container-fluid">
-	<div class="card">
-		<div class="card-body">
-			<div class="card-title">
-        <!-- <h4> </h4> -->
-        <span id="goodTimeText">Asdf-gasdf</span>, {{ user.first_name }}!
-			</div>
-		</div>
-	</div>
+<p>
+<span id="goodTimeText"></span>
+</p>
+<canvas id="goalProgress1" width="440" height="220">
+  Canvas not available. Progress: <span id=goalValue1>20</span> percent.
+</canvas>
+<canvas id="goalProgress2" width="440" height="220">
+  Canvas not available. Progress: <span id=goalValue2>50</span> percent.
+</canvas>
+<canvas id="goalProgress3" width="440" height="220">
+  Canvas not available. Progress: <span id=goalValue3>90</span> percent.
+</canvas>
+<!-- 
+<div>
+  <form id="drawTemp">
+    <input type="text" id="txtSpeed" name="txtSpeed" value="20" maxlength="2"/>
+    <input type="button" value="Draw" onclick="drawWithInputValue();">
+  </form>
 </div>
-<div id="badTime" class="container-fluid">
-	<div class="card">
-		<div class="card-body">
-			<div class="card-title">
-        <!-- <h4> </h4> -->
-        <a class="btn btn-secondary" onclick="hideCard('badTime')" href="#">Bad Time</a> 
-			</div>
-		</div>
-	</div>
-</div>
+-->
 {% endblock %}
 
 {% block scripts %}
