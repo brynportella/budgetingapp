@@ -13,9 +13,13 @@ class AnticipatedTransaction(models.Model):
         WEEKLY = 1
         BIWEEKLY = 2 # Meaning every other week
         MONTHLY = 3
-        TWICE_A_MONTH = 4 # Meaning on the first and the 15 or 16 
+        # Every 15 or so days with an interval accounting for the varying end of the month
+        # i.e. the 
+        TWICE_A_MONTH = 4 
         ONCE = 0
+        ANNUALLY = 5
     recurrence_freq = models.IntegerField(choices = RecurrenceFreq.choices)
+    bussiness_days_only = models.BooleanField(default = False)
     class Meta:
         abstract = True
 
@@ -33,7 +37,12 @@ class BudgetExpense(AnticipatedTransaction):
     importance = models.IntegerField(choices = Importance.choices)
     expense_type = models.ForeignKey(ExpenseType, on_delete = models.SET_NULL, null=True)
     def __str__(self):
-        return "Expense: ${:.2f} {}".format(self.amount, self.expense_type)
+        return "{} {}: ${:.2f} | Between {} and {}\n".format(
+                                AnticipatedTransaction.RecurrenceFreq(self.recurrence_freq).label, 
+                                self.expense_name, 
+                                self.amount, 
+                                self.start_date.strftime('%B %d, %Y'),
+                                self.end_date.strftime('%B %d, %Y'))
 
 class Income(AnticipatedTransaction):
     income_name =  models.CharField(max_length=100)
