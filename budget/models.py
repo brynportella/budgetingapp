@@ -6,6 +6,7 @@ from datetime import datetime
 
 class AnticipatedTransaction(models.Model):
     user = models.ForeignKey(CustomUser, on_delete = models.CASCADE)
+    # input_formats='%Y-%m-%d %H:%M %p', 
     start_date = models.DateTimeField(default = timezone.now)
     end_date = models.DateTimeField() 
     amount = models.DecimalField(max_digits=30, decimal_places=2, null=False)

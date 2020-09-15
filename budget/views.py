@@ -1,8 +1,36 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.views.generic.edit import CreateView
+# from django.views.generic.edit import FormView
+from datetime import timedelta
 
 from accounts.models import AccountType, Account, AccountEntry
 from .models import (AnticipatedTransaction, ExpenseType, BudgetExpense,
                      Income, IncomeToAccount, BudgetExpenseToAccount)
+
+
+class IncomeCreate(CreateView):
+    template_name = 'new-income.html'
+    model = Income
+    fields = ['start_date', 'recurrence_freq', 'amount', 'income_name', 'certainty']
+    success_url = 'budget'
+    def form_valid(self, form):
+      obj = form.save(commit=False)
+      obj.user = self.request.user
+      obj.end_date = obj.start_date + timedelta(days=365*1000)
+      obj.save()
+      return redirect('budget')
+
+class BudgetExpenseCreate(CreateView):
+    template_name = 'new-expense.html'
+    model = BudgetExpense
+    fields = ['start_date', 'recurrence_freq', 'amount', 'expense_name', 'expense_type', 'importance']
+    success_url = 'budget'
+    def form_valid(self, form):
+      obj = form.save(commit=False)
+      obj.user = self.request.user
+      obj.end_date = obj.start_date + timedelta(days=365*1000)
+      obj.save()
+      return redirect('budget')
 
 # Create your views here.
 def budgetpage(request):

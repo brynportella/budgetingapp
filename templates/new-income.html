@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}New Income{% endblock %}
+
+{% block styles %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'budgetingapp/css/goals.css' %}" />
+{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<div class="card">
+  <div class="card-body">
+    <div class="card-title">
+      <h2>New Income<h2>
+    </div>
+    <!-- 
+    <form method="post">{% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Save">
+    </form>
+     -->
+    <div class="card-text">
+      <form id="goalsRegForm" action="" method="post">
+      {% csrf_token %}
+      
+      <!-- One "tab" for each step in the form: -->
+      <h3>Look at you makin' that money!</h3>
+      {{ form.non_field_errors }}
+      <div class="tab">
+        <h4>When did/will you recieve it in your savings account?</h4>
+        <p>
+          {{ form.start_date.errors }}
+          {{ form.start_date.label_tag }}
+          {{ form.start_date }}
+        </p>
+      </div>
+      <div class="tab">
+        <h3>What's the amount?</h3>
+        <p>
+          {{ form.amount.errors }}
+          {{ form.amount.label_tag }}
+          {{ form.amount }}
+        </p>
+      </div>
+      <div class="tab">
+        <h3>What do you want to name this income?</h3>
+        <p>
+          {{ form.income_name.errors }}
+          {{ form.income_name.label_tag }}
+          {{ form.income_name }}
+        </p>
+      </div>
+      <div class="tab">
+        <h3>Is this recurring? How frequently do you expect to get this?</h3>
+        <p>
+          {{ form.recurrence_freq.errors }}
+          {{ form.recurrence_freq.label_tag }}
+          {{ form.recurrence_freq }}
+        </p>
+      </div>
+      <div class="tab">
+        <h3>What is the certainty you will recieve this income?</h3>
+        <p>
+          {{ form.certainty.errors }}
+          {{ form.certainty.label_tag }}
+          {{ form.certainty }}
+        </p>
+      </div>
+
+
+      <div style="overflow:auto;">
+        <div style="float:right;">
+          <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
+          <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+        </div>
+      </div>
+      
+      <!-- Circles which indicates the steps of the form: -->
+      <div style="text-align:center;margin-top:40px;">
+        <span class="step"></span>
+        <span class="step"></span>
+        <span class="step"></span>
+        <span class="step"></span>
+        <span class="step"></span>
+      </div>
+
+      </form> 
+    </div>
+  </div>
+</div>
+{% else %}
+This is an unauthenticated user
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+{{ block.super }}
+  <!-- XDSoft DateTimePicker -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>
+<script src="{% static 'budgetingapp/js/newincome.js' %}"></script>
+{% endblock %}
+
