@@ -30,6 +30,10 @@ def test(request):
   context = {}
   return render(request, 'test.html', context)
 
+def test2(request):
+  context = {}
+  return render(request, 'test2.html', context)
+
 # TODO: This should probably be tied to the class itself...
 RecurrenceFreqString = {
   AnticipatedTransaction.RecurrenceFreq.ONCE : "once",

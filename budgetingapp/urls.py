@@ -42,5 +42,7 @@ urlpatterns = [
     path('onboarding.html', views.onboarding, name='onboarding'), 
     path('budget.html', budget.views.budgetpage, name='budget'), 
     path('goals.html', goals.views.goalspage, name='goals'), 
+    path('new-goals.html', goals.views.newgoal, name='newgoal'), 
     path('test.html', views.test), 
+    path('test2.html', views.test2), 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
