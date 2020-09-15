@@ -115,7 +115,7 @@ def calculate_user_expense_value_in_timeperiod(user, start_date, end_date):
     amount = 0
     for expense in budget_expenses.keys(): 
         current_amount = expense.amount
-        current_amount *= budget_expenses.get(expense).size()
+        current_amount *= len(budget_expenses.get(expense))
         amount += current_amount
     
     return amount

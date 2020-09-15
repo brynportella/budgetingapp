@@ -4,7 +4,13 @@ from budget.models import BudgetExpense
 from budget.models import ExpenseType
 from datetime import datetime
 from datetime import timedelta
-from budget.services import get_all_upcoming_budget_expenses, get_all_occurences_of_all_expenses_for_dates, get_budget_expense_occurences, get_last_day_of_month, is_weekday, get_closest_business_day
+from budget.services import get_all_upcoming_budget_expenses, \
+                            get_all_occurences_of_all_expenses_for_dates, \
+                            get_budget_expense_occurences, \
+                            get_last_day_of_month, \
+                            is_weekday, \
+                            get_closest_business_day, \
+                            calculate_user_expense_value_in_timeperiod
 from django.utils import timezone
 from calendar import monthrange
 
@@ -25,12 +31,17 @@ class TestBudgetExpenseServices(TestCase):
         internet_start_date = today_start_date
         internet_end_date = today_start_date + timedelta(days = 90)
         rent_end_date = today_start_date + timedelta(days = 120)
-        car_payment_start_date = today_start_date - timedelta(days = 90)
-        car_payment_end_date = today_start_date - timedelta(days = 2)
+        car_payment_start_date = today_start_date.replace(day = 8, month = 7, year = 2020)
+        car_payment_end_date = today_start_date.replace(day = 31, month = 8, year = 2020)
         first_day_of_current_month = current_date.replace(day = 1)
 
         """ Set up budget expenses """
-        """ Internet Budget Expense (id=100) """
+        """ Upcoming """
+        """ 
+        Internet Budget Expense (id=100) 
+        "Today" (or the 28) if we are at the end of the month until 90 days
+        Monthly
+        """
         internet_budget_expense = BudgetExpense.objects.create(\
                                     user = test_user, \
                                     amount = 40.00, \
@@ -42,7 +53,11 @@ class TestBudgetExpenseServices(TestCase):
                                     expense_name = "Internet expense name", \
                                     id = 100)
 
-        """ Rent Budget Expense (id=200) """
+        """ 
+        Rent Budget Expense (id=200)
+        "Today" (or the 28) if we are at the end of the month until 120 days
+        Biweekly 
+        """
         rent_budget_expense = BudgetExpense.objects.create(\
                                     user = test_user, \
                                     amount = 500.00, \
@@ -53,43 +68,11 @@ class TestBudgetExpenseServices(TestCase):
                                     expense_type = rent_expense_type,\
                                     expense_name = "Rent expense name",\
                                     id = 200)
-
-        """ Car Payment Expense (id=300) """
-        car_payment_budget_expense = BudgetExpense.objects.create( \
-                                    user = test_user, \
-                                    amount = 200.00, \
-                                    recurrence_freq = 3, \
-                                    importance = 1, \
-                                    end_date = car_payment_end_date, \
-                                    start_date = car_payment_start_date, \
-                                    expense_type = car_payment_expense_type, \
-                                    expense_name = "Car payment expense name",\
-                                    id = 300)
-
-        """ Weekly Groceries expense id = 400 """
-        grocery_budget_expense = BudgetExpense.objects.create( \
-                                    user = test_user, \
-                                    amount = 100.00, \
-                                    recurrence_freq = 1, \
-                                    importance = 1, \
-                                    end_date = car_payment_end_date, \
-                                    start_date = car_payment_start_date, \
-                                    expense_type = grocery_expense_type, \
-                                    expense_name = "Grocery expense name",\
-                                    id = 400)
-        
-        """ Twice monthly rent (starting on the 1st) id = 500 """
-        twice_monthly_budget_expense = BudgetExpense.objects.create( \
-                                    user = test_user, \
-                                    amount = 100.00, \
-                                    recurrence_freq = 4, \
-                                    importance = 1, \
-                                    end_date = internet_end_date, \
-                                    start_date = first_day_of_current_month, \
-                                    expense_type = rent_expense_type, \
-                                    expense_name = "Rent",\
-                                    id = 500)        
-        """ Weekly only bussiness days id = 600 """
+        """ 
+        Weekly only bussiness days id = 600 
+        Aug 31, 2020 (Monday) until 80 days after "today"
+        Weekly
+        """
         businessdays_budget_expense = BudgetExpense.objects.create( \
                                     user = test_user, \
                                     amount = 100.00, \
@@ -101,7 +84,11 @@ class TestBudgetExpenseServices(TestCase):
                                     expense_name = "Bussiness days only expense name",\
                                     bussiness_days_only = True, \
                                     id = 600)
-        """ Weekly only bussiness days id = 700 """
+        """ 
+        Biweekly only bussiness days id = 700 
+        Aug 24, 2020 (Monday) until 80 days after "today"
+        Biweekly
+        """
         businessdays_budget_expense = BudgetExpense.objects.create( \
                                     user = test_user, \
                                     amount = 10.00, \
@@ -112,7 +99,100 @@ class TestBudgetExpenseServices(TestCase):
                                     expense_type = grocery_expense_type, \
                                     expense_name = "Bussiness days biweekly expense name",\
                                     bussiness_days_only = True, \
-                                    id = 700)         
+                                    id = 700)
+        """ 
+        Twice monthly rent (starting on the 1st) id = 500 
+        First of current month until 90 days after "today"
+        Twice monthly 
+        """
+        twice_monthly_budget_expense = BudgetExpense.objects.create( \
+                                    user = test_user, \
+                                    amount = 100.00, \
+                                    recurrence_freq = 4, \
+                                    importance = 1, \
+                                    end_date = internet_end_date, \
+                                    start_date = first_day_of_current_month, \
+                                    expense_type = rent_expense_type, \
+                                    expense_name = "Rent",\
+                                    id = 500)
+
+        """ 
+        Monthly only bussiness days id = 800 
+        August 7, 2020 Friday until 80 days after "today" or (the 28th of this month depending)
+        """
+        businessdays_budget_expense = BudgetExpense.objects.create( \
+                                    user = test_user, \
+                                    amount = 10.00, \
+                                    recurrence_freq = 3, \
+                                    importance = 1, \
+                                    end_date = today_start_date + timedelta(days=80), \
+                                    start_date = today_start_date.replace(day= 7, month=8, year= 2020), \
+                                    expense_type = grocery_expense_type, \
+                                    expense_name = "Bussiness days monthly expense name",\
+                                    bussiness_days_only = True, \
+                                    id = 800)
+    
+        """ Past """
+        """ 
+        Car Payment Expense (id=300)
+        July 8, 2020 Wednesday to August 31, 2020 Monday  
+        Monthly
+        """
+        car_payment_budget_expense = BudgetExpense.objects.create( \
+                                    user = test_user, \
+                                    amount = 200.00, \
+                                    recurrence_freq = 3, \
+                                    importance = 1, \
+                                    end_date = car_payment_end_date, \
+                                    start_date = car_payment_start_date, \
+                                    expense_type = car_payment_expense_type, \
+                                    expense_name = "Car payment expense name",\
+                                    id = 300)
+
+        """ 
+        Weekly Groceries expense id = 400 
+        July 8, 2020 Wednesday to August 31, 2020 Monday  
+        Weekly 
+        """
+        grocery_budget_expense = BudgetExpense.objects.create( \
+                                    user = test_user, \
+                                    amount = 100.00, \
+                                    recurrence_freq = 1, \
+                                    importance = 1, \
+                                    end_date = car_payment_end_date, \
+                                    start_date = car_payment_start_date, \
+                                    expense_type = grocery_expense_type, \
+                                    expense_name = "Grocery expense name",\
+                                    id = 400)
+    
+    def test_calculate_value(self):
+        """ 
+        Calculate total in the month of August 2020
+        Includes id = 400, id = 300, id = 800, id = 700, id = 600 
+
+        id = 600
+        occurs once on the 31 - $100 
+
+        id = 700
+        occurs once on the 24 - $10
+
+        id = 800
+        occurs once on the 7th - $10
+
+        id = 300 
+        occurs once on the 8th - $200
+
+        id = 400 
+        occurs 5th, 12th, 19th, 26th - $100 each
+        $400
+
+        """
+        user = CustomUser.objects.get(username = "Test User")
+        start_date = timezone.now().replace(day=1,month=8,year=2020)
+        end_date = start_date + timedelta(days=30) 
+        expected_result = 720
+        actual_result = calculate_user_expense_value_in_timeperiod(user, start_date, end_date)
+        self.assertEquals(expected_result, actual_result)
 
     def test_get_all_upcoming_expenses(self):
         """ 
@@ -126,9 +206,10 @@ class TestBudgetExpenseServices(TestCase):
             print(ele)
         expected_result = [ BudgetExpense.objects.get(id=100), 
                             BudgetExpense.objects.get(id=200), 
-                            BudgetExpense.objects.get(id=500), 
-                            BudgetExpense.objects.get(id=600),
-                            BudgetExpense.objects.get(id=700)]
+                            BudgetExpense.objects.get(id=600), 
+                            BudgetExpense.objects.get(id=700),
+                            BudgetExpense.objects.get(id=500),
+                            BudgetExpense.objects.get(id=800)]
         print("====================")
         print()
         self.assertEquals(expected_result, list(actual_result))
@@ -409,5 +490,4 @@ class TestBudgetExpenseServices(TestCase):
         test_date = datetime( day=7, month=9, year=2020)
         expected_result = test_date.replace(day=4)
         self.assertEquals(expected_result, get_closest_business_day(test_date))
-    
     

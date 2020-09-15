@@ -14,7 +14,7 @@ class AnticipatedTransaction(models.Model):
         BIWEEKLY = 2 # Meaning every other week
         MONTHLY = 3
         # Every 15 or so days with an interval accounting for the varying end of the month
-        # i.e. the 
+        # i.e. the 1 and 15, or the 5 and 20th, or 3rd and 18th
         TWICE_A_MONTH = 4 
         ONCE = 0
         ANNUALLY = 5
