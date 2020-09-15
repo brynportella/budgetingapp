@@ -2,6 +2,7 @@ from django.db import models
 from users.models import CustomUser
 from django.utils import timezone
 from accounts.models import Account
+from datetime import datetime
 
 class AnticipatedTransaction(models.Model):
     user = models.ForeignKey(CustomUser, on_delete = models.CASCADE)
@@ -12,10 +13,13 @@ class AnticipatedTransaction(models.Model):
         WEEKLY = 1
         BIWEEKLY = 2 # Meaning every other week
         MONTHLY = 3
-        TWICE_A_MONTH = 4 # Meaning on the first and the 15 or 16 
+        # Every 15 or so days with an interval accounting for the varying end of the month
+        # i.e. the 1 and 15, or the 5 and 20th, or 3rd and 18th
+        TWICE_A_MONTH = 4 
         ONCE = 0
-        # TODO: Annually??
+        ANNUALLY = 5
     recurrence_freq = models.IntegerField(choices = RecurrenceFreq.choices)
+    bussiness_days_only = models.BooleanField(default = False)
     class Meta:
         abstract = True
 
@@ -25,6 +29,7 @@ class ExpenseType(models.Model):
         return self.expense_type_name
 
 class BudgetExpense(AnticipatedTransaction):
+    expense_name = models.CharField(max_length=150)
     class Importance(models.IntegerChoices):
         NECESSITY = 1 # Most important expenses
         BASIC_COMFORT = 2 # Create a baseline quality of life
@@ -32,7 +37,12 @@ class BudgetExpense(AnticipatedTransaction):
     importance = models.IntegerField(choices = Importance.choices)
     expense_type = models.ForeignKey(ExpenseType, on_delete = models.SET_NULL, null=True)
     def __str__(self):
-        return "Expense: ${:.2f} {}".format(self.amount, self.expense_type)
+        return "{} {}: ${:.2f} | Between {} and {}\n".format(
+                                AnticipatedTransaction.RecurrenceFreq(self.recurrence_freq).label, 
+                                self.expense_name, 
+                                self.amount, 
+                                self.start_date.strftime('%B %d, %Y'),
+                                self.end_date.strftime('%B %d, %Y'))
 
 class Income(AnticipatedTransaction):
     income_name =  models.CharField(max_length=100)
@@ -57,3 +67,4 @@ class BudgetExpenseToAccount(models.Model):
     budget_expense = models.ForeignKey(BudgetExpense, on_delete = models.CASCADE)
     def __str__(self):
        return "Income to account: ${:.2f} from [{}] to account [{}]".format(self.amount, self.budget_expense, self.account)
+

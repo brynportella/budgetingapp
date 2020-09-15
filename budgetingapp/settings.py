@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'users.apps.UsersConfig',
     'budget.apps.BudgetConfig',
+    'goals.apps.GoalsConfig', 
+    'recommendations.apps.RecommendationsConfig'
 ]
 
 MIDDLEWARE = [
@@ -84,7 +86,11 @@ DATABASES = {
         'USER':'budgetingappuser',
         'PASSWORD':'password',
         'HOST':'localhost',
-        'PORT': '5432'
+        'PORT': '5432', 
+        'TEST' : {
+            'NAME' : 'testdatabase',
+            'USER':'budgetingappuser', 
+        }
     }
 }
 
