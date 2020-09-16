@@ -46,7 +46,7 @@
 			</div>
 			<div class="card-text">
         <p>Want to Update your Progress?</p>
-				<a class="btn btn-secondary" href="{% url 'goals' %}">Yes</a>
+				<a class="btn btn-secondary" href="#goal_loc">Yes</a>
         <a class="btn btn-secondary" onclick="hideCard('gotGoals')" href="#">No</a> 
 			</div>
 		</div>
@@ -127,8 +127,8 @@
 			<div class="card-title">
         <div class="d-flex flex-row align-items-end justify-content-between">
           <div class="d-inline-flex p-2"></div>
-          <div class="d-inline-flex p-2"><h2>Goals</h2></div>
-          <div class="d-inline-flex p-2"><a href="#">
+          <div class="d-inline-flex p-2"><h2 id="goal_loc">Goals</h2></div>
+          <div class="d-inline-flex p-2"><a href="{% url 'newgoal' %}">
             <svg height="30px" stroke="red" viewBox="0 0 60 60">
               <circle cx="25" cy="25" r="22.5" fill="none" stroke-width="4.5"></circle>
               <line x1="16.25" y1="25" x2="33.75" y2="25" stroke-width="5"></line>

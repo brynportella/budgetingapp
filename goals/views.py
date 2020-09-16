@@ -7,6 +7,7 @@ def goalspage(request):
   context = {}
   return render(request, 'goals.html', context)
 
+# TODO: Did not know about CreateView when I made this -- refer to AccountCreate or IncomeCreate to redo this -- SORRY (Stephen)
 def newgoal(request):
   # if this is a POST request we need to process the form data
   if request.method == 'POST':

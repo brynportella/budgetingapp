@@ -45,7 +45,8 @@ urlpatterns = [
     path('goals.html', goals.views.goalspage, name='goals'), 
     path('new-goals.html', goals.views.newgoal, name='newgoal'), 
     path('new-income.html', budget.views.IncomeCreate.as_view(), name='newincome'), 
-    path('new-expense.html', budget.views.BudgetExpenseCreate.as_view(), name='newexpense'), 
+    path('new-budget-expense.html', budget.views.BudgetExpenseCreate.as_view(), name='newbudgetexpense'),
+    path('new-account.html', accounts.views.AccountCreate.as_view(), name='newaccount'),
     path('test.html', views.test), 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     # path('signup.html', accounts.views.SignUp.as_view(), name='signup'),

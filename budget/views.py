@@ -21,7 +21,7 @@ class IncomeCreate(CreateView):
       return redirect('budget')
 
 class BudgetExpenseCreate(CreateView):
-    template_name = 'new-expense.html'
+    template_name = 'new-budget-expense.html'
     model = BudgetExpense
     fields = ['start_date', 'recurrence_freq', 'amount', 'expense_name', 'expense_type', 'importance']
     success_url = 'budget'
@@ -37,8 +37,8 @@ def budgetpage(request):
   context = {}
   if request.user.is_authenticated:
     user = request.user
-    print("OK")
     # Bank statement
+    # TODO How to order these?
     user_accounts = Account.objects.filter(user=user)
     user_budget = BudgetExpense.objects.filter(user=user)
     user_incomes = Income.objects.filter(user=user).order_by('start_date')

@@ -71,10 +71,12 @@ def budgets_to_monthly(budgets):
 
 def home(request):
   user = request.user
+  if not user.is_authenticated:
+    return render(request, 'home.html')
   # DEBUG: All placeholders
   # Pop-ups
   is_pay_day = False
-  got_goals = False
+  got_goals = True
   got_bill = False
   # Recommendations logic
   recommendations_text = [

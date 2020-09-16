@@ -15,14 +15,8 @@
     <div class="card-title">
       <h2>New Budget Expense<h2>
     </div>
-    <!-- 
-    <form method="post">{% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Save">
-    </form>
-     -->
     <div class="card-text">
-      <form id="goalsRegForm" action="" method="post">
+      <form id="regForm" action="" method="post">
       {% csrf_token %}
       
       <!-- One "tab" for each step in the form: -->
@@ -109,6 +103,7 @@ This is an unauthenticated user
   <!-- XDSoft DateTimePicker -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>
-<script src="{% static 'budgetingapp/js/newexpense.js' %}"></script>
+<script src="{% static 'budgetingapp/js/tabs.js' %}"></script>
+<script src="{% static 'budgetingapp/js/newbudgetexpense.js' %}"></script>
 {% endblock %}
 
