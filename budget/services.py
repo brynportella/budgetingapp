@@ -1,5 +1,5 @@
 from .models import ExpenseType
-from .models import BudgetExpense
+from .models import BudgetExpense, Income
 from django.utils import timezone
 from datetime import datetime
 from datetime import timedelta
@@ -7,9 +7,12 @@ from calendar import monthrange, weekday
 import holidays
 
 def get_all_upcoming_budget_expenses(user):
-    return BudgetExpense.objects.filter(user = user).filter(end_date__gte = timezone.now())
+    return BudgetExpense.objects.filter(user = user, end_date__gte = timezone.now())
 
-def get_budget_expense_occurences(anticipated_transaction, start_date, end_date):
+def get_all_upcoming_anticipated_income(user):
+    return Income.objects.filter(user = user).filter(end_date__gte = timezone.now())
+
+def get_anticipated_transaction_occurences(anticipated_transaction, start_date, end_date):
     end_date = end_date if end_date < anticipated_transaction.end_date else anticipated_transaction.end_date
     recurrence_freq = anticipated_transaction.recurrence_freq
     interval = get_freq_based_interval(recurrence_freq)
@@ -69,9 +72,17 @@ def get_all_occurences_of_all_expenses_for_dates(user, begin_date, finish_date):
     budget_expenses = BudgetExpense.objects.filter(user=user, end_date__gte = begin_date)
     matching_budget_expenses = {}
     for budget_expense in budget_expenses:
-        current_occurrences = get_budget_expense_occurences(budget_expense, begin_date, finish_date)
+        current_occurrences = get_anticipated_transaction_occurences(budget_expense, begin_date, finish_date)
         matching_budget_expenses.update(current_occurrences)
     return matching_budget_expenses
+
+def get_all_occurences_of_all_anticipated_income_for_dates(user, begin_date, finish_date):
+    incomes = Income.objects.filter(user = user, end_date__gte = begin_date)
+    matching_incomes = {}
+    for income in incomes:
+        current_occurrences = get_anticipated_transaction_occurences(income, begin_date, finish_date)
+        matching_incomes.update(current_occurrences)
+    return matching_incomes
 
 # Returns the first bussiness day at or before the input date
 def get_closest_business_day(date): 
@@ -109,15 +120,42 @@ def less_than_or_equal_to_time_insensitive(date1, date2):
     else: 
         return False
 
-def calculate_user_expense_value_in_timeperiod(user, start_date, end_date):
+def calculate_total_user_expense_value_in_timeperiod(user, start_date, end_date):
     budget_expenses = get_all_occurences_of_all_expenses_for_dates(user = user, begin_date = start_date, finish_date = end_date)
-
     amount = 0
     for expense in budget_expenses.keys(): 
         current_amount = expense.amount
         current_amount *= len(budget_expenses.get(expense))
-        amount += current_amount
-    
+        amount += current_amount 
     return amount
 
+def calculate_total_user_income_value_in_timeperiod(user, start_date, end_date):
+    incomes = get_all_occurences_of_all_anticipated_income_for_dates(user = user, begin_date = start_date, finish_date= end_date)
+    amount = 0 
+    for income in incomes.keys():
+        current_amount = income.amount
+        current_amount *= len(incomes.get(income))
+        amount += current_amount
+    return amount
 
+def pay_day_since_last_login(user):
+    last_login = user.last_login 
+    if (last_login != None):
+        start_date = last_login
+        end_date = timezone.now()
+        incomes = get_all_occurences_of_all_anticipated_income_for_dates(user, start_date, end_date)
+        for income in incomes:
+            occurrences = incomes.get(income)
+            if len(occurrences) >= 1:
+                return True
+    return False
+
+def is_pay_day(user): 
+    start_date = timezone.now()
+    end_date = timezone.now()
+    incomes = get_all_occurences_of_all_anticipated_income_for_dates(user, start_date, end_date)
+    for income in incomes:
+        occurrences = incomes.get(income)
+        if len(occurrences) >= 1:
+            return True
+    return False

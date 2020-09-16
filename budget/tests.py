@@ -6,11 +6,11 @@ from datetime import datetime
 from datetime import timedelta
 from budget.services import get_all_upcoming_budget_expenses, \
                             get_all_occurences_of_all_expenses_for_dates, \
-                            get_budget_expense_occurences, \
+                            get_anticipated_transaction_occurences, \
                             get_last_day_of_month, \
                             is_weekday, \
                             get_closest_business_day, \
-                            calculate_user_expense_value_in_timeperiod
+                            calculate_total_user_expense_value_in_timeperiod
 from django.utils import timezone
 from calendar import monthrange
 
@@ -191,7 +191,7 @@ class TestBudgetExpenseServices(TestCase):
         start_date = timezone.now().replace(day=1,month=8,year=2020)
         end_date = start_date + timedelta(days=30) 
         expected_result = 720
-        actual_result = calculate_user_expense_value_in_timeperiod(user, start_date, end_date)
+        actual_result = calculate_total_user_expense_value_in_timeperiod(user, start_date, end_date)
         self.assertEquals(expected_result, actual_result)
 
     def test_get_all_upcoming_expenses(self):
@@ -227,7 +227,7 @@ class TestBudgetExpenseServices(TestCase):
         end_date = start_date + timedelta(days = 40)
         print(start_date.strftime("%B %d, %y")+" and "+end_date.strftime('%B %d, %y'))
         print("======================================")
-        result = get_budget_expense_occurences(anticipated_transaction= expense, start_date = start_date, end_date = end_date)
+        result = get_anticipated_transaction_occurences(anticipated_transaction= expense, start_date = start_date, end_date = end_date)
         result_dates = []
         for current_expense in result.keys():
             print(current_expense)
@@ -254,7 +254,7 @@ class TestBudgetExpenseServices(TestCase):
         end_date = start_date + timedelta(days = 40)
         print(start_date.strftime("%B %d, %y")+" and "+end_date.strftime('%B %d, %y'))
         print("======================================")
-        result = get_budget_expense_occurences(anticipated_transaction= expense, start_date = start_date, end_date = end_date)
+        result = get_anticipated_transaction_occurences(anticipated_transaction= expense, start_date = start_date, end_date = end_date)
         result_dates = []
         for current_expense in result.keys():
             print(current_expense)
@@ -304,7 +304,7 @@ class TestBudgetExpenseServices(TestCase):
         for d in expected_dates:
             print(d)
 
-        result = get_budget_expense_occurences(expense, start_date, end_date)
+        result = get_anticipated_transaction_occurences(expense, start_date, end_date)
         print()
         print("Actual Result")
         print("============")
@@ -341,7 +341,7 @@ class TestBudgetExpenseServices(TestCase):
         for d in expected_dates:
             print(d)
 
-        result = get_budget_expense_occurences(expense, start_date, end_date)
+        result = get_anticipated_transaction_occurences(expense, start_date, end_date)
         print()
         print("Actual Result")
         print("============")
