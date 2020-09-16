@@ -24,28 +24,36 @@
       <!-- Tab 1: Goal name -->
       <div class="tab">
         <h3>Let's Get Started on Your New Goal!</h3>
+        <!-- 
         <p>
-          {{ form.goal_name.errors }}
-          {{ form.goal_name.label_tag }}
-          {{ form.goal_name }}
+          { form.goal_name.errors }}
+          { form.goal_name.label_tag }}
+          { form.goal_name }}
+        </p>
+        -->
+        <p>What type of goal is this?</p>
+        <p>
+          {{ form.goal_type.errors }}
+          {{ form.goal_type.label_tag }}
+          {{ form.goal_type }}
         </p>
       </div>
       <!-- Tab 2: Goal amount -->
       <div class="tab">
         <h3>Great Goal! Lets talk about that</h3>
         <p>
-          {{ form.goal_amount.errors }}
-          {{ form.goal_amount.label_tag }}
-          {{ form.goal_amount }}
+          {{ form.amount.errors }}
+          {{ form.amount.label_tag }}
+          {{ form.amount }}
         </p>
       </div>
       <!-- Tab 3: Goal target date -->
       <div class="tab">
         <h3>Great Goal! Lets talk about that</h3>
         <p>
-          {{ form.goal_date.errors }}
-          {{ form.goal_date.label_tag }}
-          {{ form.goal_date }}
+          {{ form.end_date.errors }}
+          {{ form.end_date.label_tag }}
+          {{ form.end_date }}
         </p>
       </div>
       <!-- Tab 4: Goal reason -->

@@ -5,7 +5,11 @@
 
 {% block content %}
 {% if user.is_authenticated %}
-This is a goals page
+<form method="post">  
+    {% csrf_token %}  
+    {{ form.as_p  }}  
+    <input type="submit" value="Save">  
+</form>  
 {% else %}
 This is an unauthenticated user
 {% endif %}

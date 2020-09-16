@@ -5,7 +5,7 @@ function hideCard(idText) {
 /* JQuery
 */
 $(function () {
-  $("#id_goal_date").datetimepicker({
+  $("#id_end_date").datetimepicker({
     format: 'd/m/Y H:i',
   });
 });

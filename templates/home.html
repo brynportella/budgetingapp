@@ -140,7 +140,7 @@
       {% for goal in goals %}
 			<div class="card-text">
         <h5>{{ goal.name }}</h5>
-        You have reached ${{ goal.value }} of your goal of ${{ goal.goal }}.
+        You have reached ${{ goal.value }} of your goal of ${{ goal.goal }}. <a class="btn btn-secondary" href="goals/{{ goal.id }}/">Update Progress</a>
       </div>
       <div>
         <canvas id="goalProgress{{ forloop.counter }}" width="440" height="220">

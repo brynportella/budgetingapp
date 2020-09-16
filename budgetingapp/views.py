@@ -20,7 +20,8 @@ import datetime
 ##### WE WILL REPLACE THIS WITH GOALS MODEL #####
 ##### I DO NOT KNOW IF THESE FIELDS WILL BE USED #####
 class TempGoal:
-  def __init__(self, name, value, goal):
+  def __init__(self, id_num, name, value, goal):
+    self.id = id_num
     self.name = name
     self.value = value
     self.goal = goal
@@ -86,9 +87,9 @@ def home(request):
   ]
   # Goals
   goals = [
-    TempGoal('Save 100 Dollars', 25, 100),
-    TempGoal('Pay Debt', 0.9*2000, 2000),
-    TempGoal('Nice dinner out', 0.35*80, 80),
+    TempGoal(1,'Save 100 Dollars', 25, 100),
+    TempGoal(2,'Pay Debt', 0.9*2000, 2000),
+    TempGoal(3,'Nice dinner out', 0.35*80, 80),
   ]
   # Get cash
   user_accounts = Account.objects.filter(user=user)
