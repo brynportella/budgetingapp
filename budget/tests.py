@@ -1,6 +1,6 @@
 from django.test import TestCase
 from users.models import CustomUser
-from budget.models import BudgetExpense
+from budget.models import BudgetExpense, Income
 from budget.models import ExpenseType
 from datetime import datetime
 from datetime import timedelta
@@ -10,7 +10,10 @@ from budget.services import get_all_upcoming_budget_expenses, \
                             get_last_day_of_month, \
                             is_weekday, \
                             get_closest_business_day, \
-                            calculate_total_user_expense_value_in_timeperiod
+                            calculate_total_user_expense_value_in_timeperiod,\
+                            get_all_upcoming_anticipated_income, \
+                            get_all_occurences_of_all_anticipated_income_for_dates,\
+                            calculate_total_user_income_value_in_timeperiod
 from django.utils import timezone
 from calendar import monthrange
 
@@ -18,7 +21,7 @@ class TestBudgetExpenseServices(TestCase):
     @classmethod
     def setUpTestData(cls):
         """ Set up user """
-        test_user = CustomUser.objects.create_user("Test User", email="test_user_saverlife@yopmail.com",password="password")
+        test_user = CustomUser.objects.create_user("Test User", email="test_user_saverlife@yopmail.com",password="password", last_login = timezone.now()-timedelta(days=2))
         """ Set up expense types """
         rent_expense_type = ExpenseType.objects.create(expense_type_name="Rent")
         internet_expense_type = ExpenseType.objects.create(expense_type_name="Internet")
@@ -164,7 +167,33 @@ class TestBudgetExpenseServices(TestCase):
                                     expense_type = grocery_expense_type, \
                                     expense_name = "Grocery expense name",\
                                     id = 400)
+        """ Incomes """
+        """
+        Same day income 
+        Begins today ends in 90 days 
+        Paid weekly
+        """
+        same_day_income = Income.objects.create( \
+                            user = test_user, \
+                            amount = 500.00, \
+                            recurrence_freq = 1, 
+                            certainty = 1, \
+                            start_date = timezone.now(),\
+                            end_date = timezone.now() + timedelta(days=90), \
+                            income_name = "Same day income",\
+                            bussiness_days_only = False,
+                            id = 100
+                            )
     
+    def test_same_day_occurrence(self): 
+        user = CustomUser.objects.get(username="Test User")
+        income = Income.objects.get(id = 100)
+        expected_amount = income.amount
+        start_date = timezone.now()
+        end_date = timezone.now()
+        actual_amount = calculate_total_user_income_value_in_timeperiod(user, start_date, end_date) 
+        self.assertEquals(expected_amount, actual_amount)
+
     def test_calculate_value(self):
         """ 
         Calculate total in the month of August 2020
