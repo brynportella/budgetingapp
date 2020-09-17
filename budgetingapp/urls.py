@@ -14,15 +14,39 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, re_path
 from django.views.generic.base import TemplateView
 from django.urls import include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.staticfiles.storage import staticfiles_storage
+from django.views.generic.base import RedirectView
+
+from . import views
+import accounts.views
+import budget.views
+import goals.views
+
+
+# path('favicon.ico', RedirectView.as_view(url=staticfiles_storage.url('img/favicon.ico'))),
+favicon_view = RedirectView.as_view(url='/static/img/favicon.ico', permanent=True)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('users/', include('users.urls')),
     path('users/', include('django.contrib.auth.urls')),
-    path('', TemplateView.as_view(template_name='home.html'), name='home'), 
-]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    path('favicon.ico', favicon_view),
+    re_path(r'^favicon\.ico$', favicon_view),
+    path('', views.home, name='home'), 
+    path('home.html', views.home), 
+    path('welcome.html', TemplateView.as_view(template_name='welcome.html'), name='welcome'), 
+    path('onboarding.html', views.onboarding, name='onboarding'), 
+    path('budget.html', budget.views.budgetpage, name='budget'), 
+    path('goals/<pk>/', goals.views.GoalUpdate.as_view()), 
+    path('new-goals.html', goals.views.GoalCreate.as_view(), name='newgoal'), 
+    path('new-income.html', budget.views.IncomeCreate.as_view(), name='newincome'), 
+    path('new-budget-expense.html', budget.views.BudgetExpenseCreate.as_view(), name='newbudgetexpense'),
+    path('new-account.html', accounts.views.AccountCreate.as_view(), name='newaccount'),
+    path('test.html', views.test), 
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    # path('signup.html', accounts.views.SignUp.as_view(), name='signup'),

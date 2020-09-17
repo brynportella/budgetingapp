@@ -1,0 +1,41 @@
+<!-- templates/test.html -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Testing{% endblock %}
+
+{% block styles %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'budgetingapp/css/home.css' %}" />
+{% endblock %}
+
+{% block content %}
+<p>
+<span id="goodTimeText"></span>
+</p>
+<canvas id="goalProgress1" width="440" height="220">
+  Canvas not available. Progress: <span id=goalValue1>20</span> percent.
+</canvas>
+<canvas id="goalProgress2" width="440" height="220">
+  Canvas not available. Progress: <span id=goalValue2>50</span> percent.
+</canvas>
+<canvas id="goalProgress3" width="440" height="220">
+  Canvas not available. Progress: <span id=goalValue3>90</span> percent.
+</canvas>
+<!-- 
+<div>
+  <form id="drawTemp">
+    <input type="text" id="txtSpeed" name="txtSpeed" value="20" maxlength="2"/>
+    <input type="button" value="Draw" onclick="drawWithInputValue();">
+  </form>
+</div>
+-->
+{% endblock %}
+
+{% block scripts %}
+{{ block.super }}
+<script src="{% static 'budgetingapp/js/home.js' %}"></script>
+{% endblock %}
+
+
+

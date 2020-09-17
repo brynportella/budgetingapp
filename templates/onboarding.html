@@ -1,0 +1,243 @@
+<!-- templates/onboarding.html -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Onboarding{% endblock %}
+
+
+{% block styles %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'budgetingapp/css/onboarding.css' %}" />
+{% endblock %}
+
+
+{% block content %}
+<div class="card">
+  <div class="card-body">
+    <div class="card-title">
+      <!-- TODO: Need to make a first and last name! -->
+      <h2>Welcome to the SaverLife budgeting app! Let's get started<h2>
+    </div>
+    <div class="card-text">
+      <form id="onboardingRegForm" action="" method="post">
+      {% csrf_token %}
+      
+      <!-- One "tab" for each step in the form: -->
+      {{ form.non_field_errors }}
+      <!-- Tab 0: User -->
+      <!-- Tab 1: Bank -->
+      <div class="tab">
+        <h3>Link Savings Account</h3>
+        <p>Securely link your primary savings account so that SaverLife can reward you for saving. We will nudge you to save based on the activity in this account.</p>
+        <p>
+          {{ form.bank_name.errors }}
+          {{ form.bank_name.label_tag }}
+          {{ form.bank_name }}
+        </p>
+        <p>
+          {{ form.bank_account_name.errors }}
+          {{ form.bank_account_name.label_tag }}
+          {{ form.bank_account_name }}
+        </p>
+        <p>
+          {{ form.bank_account_number.errors }}
+          {{ form.bank_account_number.label_tag }}
+          {{ form.bank_account_number }}
+        </p>
+      </div>
+
+      <!-- Tab 2: Savings Goal -->
+      <div class="tab">
+        <h3>30 Day Savings Goal</h3>
+        <p>A saving goal doesn't have to be big to be important.</p>
+        <p>What would you like to save within the next 30 days for yourself or someone special in your life?</p>
+        <p>
+          {{ form.saving_goal_name.errors }}
+          {{ form.saving_goal_name.label_tag }}
+          {{ form.saving_goal_name }}
+        </p>
+        <p>
+          {{ form.saving_goal_amount.errors }}
+          {{ form.saving_goal_amount.label_tag }}
+          {{ form.saving_goal_amount }}
+        </p>
+      </div>
+
+      <!-- Tab 3: Spending vs Income -->
+      <div class="tab">
+        <h3>Financial Habits questionnaire</h3>
+        <p>Over the last 12 months, how did your household's income compare to total spending?</p>
+        <p class='form-radio'>
+          {{ form.spending.errors }}
+          {{ form.spending }}
+        </p>
+      </div>
+
+      <!-- Tab 4: Income Questionnaire -->
+      <div class="tab">
+        <!-- Income questionnaire -->
+        <p>
+          {{ form.income_question_pay_period.errors }}
+          <label for="{{ form.income_question_pay_period.id_for_label }}">What was your overall income last pay period?</label>
+          {{ form.income_question_pay_period }}
+        </p>
+        <p>
+          {{ form.income_question_vary.errors }}
+          {{ form.income_question_vary.label_tag }}
+          {{ form.income_question_vary }}
+        </p>
+        <p>
+          {{ form.income_question_pay_freq.errors }}
+          {{ form.income_question_pay_freq.label_tag }}
+          {{ form.income_question_pay_freq }}
+        </p>
+      </div>
+
+      <!-- Tab 5: Bill Paying -->
+      <div class="tab">
+        <p>Which of the following best describes how your household has paid its bills over the last 12 months?</p>
+        <p>
+          {{ form.bill_pay.errors }}
+          {{ form.bill_pay.label_tag }}
+          {{ form.bill_pay }}
+        </p>
+      </div>
+
+      <!-- Tab 6: Essential bills -->
+      <div class="tab">
+        <p>What were your essential bills last month?</p>
+        <p>
+          {{ form.bill_rent.errors }}
+          {{ form.bill_rent.label_tag }}
+          {{ form.bill_rent }}
+        </p>
+        <p>
+          {{ form.bill_utilities.errors }}
+          {{ form.bill_utilities.label_tag }}
+          {{ form.bill_utilities }}
+        </p>
+        <p>
+          {{ form.bill_food.errors }}
+          {{ form.bill_food.label_tag }}
+          {{ form.bill_food }}
+        </p>
+        <p>
+          {{ form.bill_health.errors }}
+          {{ form.bill_health.label_tag }}
+          {{ form.bill_health }}
+        </p>
+        <p>
+          {{ form.bill_other.errors }}
+          {{ form.bill_other.label_tag }}
+          {{ form.bill_other }}
+        </p>
+      </div>
+
+      <!-- Tab 7: Savings coverage questionnaire -->
+      <div class="tab">
+        <p>How long can your short term savings cover yor current level of spending?</p>
+        <p>
+          {{ form.savings_coverage.errors }}
+          {{ form.savings_coverage.label_tag }}
+          {{ form.savings_coverage }}
+        </p>
+      </div>
+
+      <!-- Tab 8: Financial Confidence -->
+      <div class="tab">
+        <p>How confident are you that your household is currently doing what is needed to meet long-term financial goals?</p>
+        <p>
+          {{ form.confidence.errors }}
+          {{ form.confidence.label_tag }}
+          {{ form.confidence }}
+        </p>
+      </div>
+
+      <!-- Tab 9: Debt -->
+      <div class="tab">
+        <h3>Financial Health Survey</h3>
+        <p>As of today, which of the following statements describes how managable your household debt is?</p>
+        <p>
+          {{ form.debt.errors }}
+          {{ form.debt.label_tag }}
+          {{ form.debt }}
+        </p>
+      </div>
+
+      <!-- Tab 10: Credit Score Estimate -->
+      <div class="tab">
+        <p>How would you rate your credit score?</p>
+        <p>
+          {{ form.credit_score.errors }}
+          {{ form.credit_score.label_tag }}
+          {{ form.credit_score }}
+        </p>
+      </div>
+
+      <!-- Tab 11: Insurance Confidence -->
+      <div class="tab">
+        <p>How confident are you that the types of insurance policies you have will provide enough support in case of an emergency?</p>
+        <p>
+          {{ form.insurance.errors }}
+          {{ form.insurance.label_tag }}
+          {{ form.insurance }}
+        </p>
+      </div>
+
+      <!-- Tab 12: Ethnicity -->
+      <div class="tab">
+        <h3>Demographics</h3>
+        <p>What ethnicity are you?</p>
+        <p>
+          {{ form.ethnicity.errors }}
+          {{ form.ethnicity.label_tag }}
+          {{ form.ethnicity }}
+        </p>
+      </div>
+
+      <!-- Tab 13: Veteran -->
+      <div class="tab">
+        <p>
+          {{ form.veteran.errors }}
+          {{ form.veteran.label_tag }}
+          {{ form.veteran }}
+        </p>
+      </div>
+
+
+      <div style="overflow:auto;">
+        <div style="float:right;">
+          <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
+          <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+        </div>
+      </div>
+
+      <!-- Circles which indicates the steps of the form: -->
+      <div style="text-align:center;margin-top:40px;">
+        <span class="step"></span>
+        <span class="step"></span>
+        <span class="step"></span>
+        <span class="step"></span>
+        <span class="step"></span>
+        <span class="step"></span>
+        <span class="step"></span>
+        <span class="step"></span>
+        <span class="step"></span>
+        <span class="step"></span>
+        <span class="step"></span>
+        <span class="step"></span>
+        <span class="step"></span>
+      </div>
+
+      </form> 
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+
+{% block scripts %}
+{{ block.super }}
+<script src="{% static 'budgetingapp/js/onboarding.js' %}"></script>
+{% endblock %}
+

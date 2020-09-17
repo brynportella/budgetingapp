@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}New Account{% endblock %}
+
+{% block styles %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'budgetingapp/css/goals.css' %}" />
+{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<div class="card">
+  <div class="card-body">
+    <div class="card-title">
+      <h2>New Account<h2>
+    </div>
+    <div class="card-text">
+      <form id="regForm" action="" method="post">
+      {% csrf_token %}
+      
+      <!-- One "tab" for each step in the form: -->
+      <h3>Nice, a new Account!</h3>
+      {{ form.non_field_errors }}
+      <div class="tab">
+        <h4>What is the name and type of account?</h4>
+        <p>
+          {{ form.account_name.errors }}
+          {{ form.account_name.label_tag }}
+          {{ form.account_name }}
+        </p>
+        <p>
+          {{ form.account_type.errors }}
+          {{ form.account_type.label_tag }}
+          {{ form.account_type }}
+        </p>
+      </div>
+      <div class="tab">
+        <h3>What's the amount currently in this account?</h3>
+        <p>
+          {{ form.account_balance.errors }}
+          {{ form.account_balance.label_tag }}
+          {{ form.account_balance }}
+        </p>
+      </div>
+      <div class="tab">
+        <h3>What is the interest rate and compound rate?</h3>
+        <p>
+          {{ form.interest_rate.errors }}
+          {{ form.interest_rate.label_tag }}
+          {{ form.interest_rate }}
+        </p>
+        <p>
+          {{ form.compound_periods_per_year.errors }}
+          {{ form.compound_periods_per_year.label_tag }}
+          {{ form.compound_periods_per_year }}
+        </p>
+      </div>
+      <div class="tab">
+        <h3>Any other details about this account?</h3>
+        <p>
+          {{ form.account_details.errors }}
+          {{ form.account_details.label_tag }}
+          {{ form.account_details }}
+        </p>
+      </div>
+
+      <div style="overflow:auto;">
+        <div style="float:right;">
+          <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
+          <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+        </div>
+      </div>
+      
+      <!-- Circles which indicates the steps of the form: -->
+      <div style="text-align:center;margin-top:40px;">
+        <span class="step"></span>
+        <span class="step"></span>
+        <span class="step"></span>
+        <span class="step"></span>
+      </div>
+
+      </form> 
+    </div>
+  </div>
+</div>
+{% else %}
+This is an unauthenticated user
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+{{ block.super }}
+<script src="{% static 'budgetingapp/js/tabs.js' %}"></script>
+{% endblock %}

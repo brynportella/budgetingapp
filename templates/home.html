@@ -1,22 +1,74 @@
 <!-- templates/home.html -->
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Home{% endblock %}
 
+{% block styles %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'budgetingapp/css/home.css' %}" />
+{% endblock %}
+
 {% block content %}
 {% if user.is_authenticated %}
-<div class="container-fluid">
+<div id="goodTime" class="container-fluid">
 	<div class="card">
 		<div class="card-body">
 			<div class="card-title">
-				Hi {{ user.username }}!
-			</div>
-			<div class="card-text">
-				<a href="{% url 'logout' %}">logout</a>
+        <!-- <h4> </h4> -->
+        <span id="goodTimeText">Asdf-gasdf</span>, {{ user.first_name }}!
 			</div>
 		</div>
 	</div>
 </div>
+{% if is_pay_day %}
+<div id="payDay" class="container-fluid">
+	<div class="card">
+		<div class="card-body">
+			<div class="card-title">
+			  Yay, It's pay day!
+			</div>
+			<div class="card-text">
+        <p>Was your income what you expected?</p>
+        <a class="btn btn-secondary" onclick="hideCard('payDay')" href="#">Yes</a> 
+				<a class="btn btn-secondary" href="{% url 'budget' %}">No</a>
+			</div>
+		</div>
+	</div>
+</div>
+{% endif %}
+{% if got_goals %}
+<div id="gotGoals" class="container-fluid">
+	<div class="card">
+		<div class="card-body">
+			<div class="card-title">
+			  I've got goals on my mind!
+			</div>
+			<div class="card-text">
+        <p>Want to Update your Progress?</p>
+				<a class="btn btn-secondary" href="#goal_loc">Yes</a>
+        <a class="btn btn-secondary" onclick="hideCard('gotGoals')" href="#">No</a> 
+			</div>
+		</div>
+	</div>
+</div>
+{% endif %}
+{% if got_bill %}
+<div id="gotBills" class="container-fluid">
+	<div class="card">
+		<div class="card-body">
+			<div class="card-title">
+			  It's time to pay those bills!
+			</div>
+			<div class="card-text">
+        <p>Want to Pay do it Now?</p>
+				<a class="btn btn-secondary" href="#">Yes</a>
+        <a class="btn btn-secondary" onclick="hideCard('gotBills')" href="#">No</a> 
+			</div>
+		</div>
+	</div>
+</div>
+{% endif %}
 <div class="container-fluid">
 	<div class="card bg-transparent">
 		<div class="card-body">
@@ -24,11 +76,12 @@
 				<tbody>
 					<tr class="alert-success">
 						<td>Cash</td>
-						<td>$00.00</td>
+						<td>${{ cash|floatformat:"2" }}</td>
 					</tr>
 					<tr class="alert-warning">
-						<td>Bills over the next</td>
-						<td>$0.00</td>
+            <!-- TODO: Make month modifiable -->
+						<td>Bills over the next month</td>
+						<td>${{ bills|floatformat:"2" }}</td>
 					</tr>
 				</tbody>
 			</table>
@@ -71,50 +124,70 @@
 <div class="container-fluid">
 	<div class="card">
 		<div class="card-body">
-			<ul class="list-group">
-				<li class="list-group-item d-flex justify-content-between align-items-center">
-					<button type="button" class="btn badge-success">
-						<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-check-circle-fill"
-							fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-							<path fill-rule="evenodd"
-								d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
-						</svg>
-					</button>
-					<h5>Goal</h5>
-					<button type="button" class="close" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</li>
-			</ul>
+			<div class="card-title">
+        <div class="d-flex flex-row align-items-end justify-content-between">
+          <div class="d-inline-flex p-2"></div>
+          <div class="d-inline-flex p-2"><h2 id="goal_loc">Goals</h2></div>
+          <div class="d-inline-flex p-2"><a href="{% url 'newgoal' %}">
+            <svg height="30px" stroke="red" viewBox="0 0 60 60">
+              <circle cx="25" cy="25" r="22.5" fill="none" stroke-width="4.5"></circle>
+              <line x1="16.25" y1="25" x2="33.75" y2="25" stroke-width="5"></line>
+              <line x1="25" y1="16.25" x2="25" y2="33.75" stroke-width="5"></line>
+            </svg>
+          </a></div>
+        </div>
+      </div>
+      {% for goal in goals %}
+			<div class="card-text">
+        <h5>{{ goal.name }}</h5>
+        You have reached ${{ goal.value }} of your goal of ${{ goal.goal }}. <a class="btn btn-secondary" href="goals/{{ goal.id }}/">Update Progress</a>
+      </div>
+      <div>
+        <canvas id="goalProgress{{ forloop.counter }}" width="440" height="220">
+          Canvas not available. Progress: <span id=goalValue{{ forloop.counter }}>{{ goal.percentage }}</span> percent.
+        </canvas>
+      </div>
+			<div class="progress">
+				<div class="progress-bar bg-success" role="progressbar"
+             style="width: {{ goal.percentage }}%" aria-valuenow="{{ goal.percentage }}"
+             aria-valuemin="0" aria-valuemax="100"></div>
+			</div>
+      {% endfor %}
+		</div>
+	</div>
+</div>
 
-		</div>
-	</div>
-</div>
-<div class="container-fluid">
-	<div class="card">
-		<div class="card-body">
-			<div class="progress">
-				<div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25"
-					aria-valuemin="0" aria-valuemax="100"></div>
-			</div>
-			<div class="card-text">You are x amount close to goals.</div>
-			<div class="progress">
-				<div class="progress-bar bg-success" role="progressbar" style="width: 90%" aria-valuenow="90"
-					aria-valuemin="90" aria-valuemax="100"></div>
-			</div>
-			<div class="card-text">You are x amount close to goals.</div>
-			<div class="progress">
-				<div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25"
-					aria-valuemin="0" aria-valuemax="100"></div>
-			</div>
-			<div class="card-text">You are x amount close to goals.</div>
-		</div>
-	</div>
-</div>
 <div class="container-fluid">
 	<div class="card">
 		<div class="card-img">
-			<canvas></canvas>
+      <div class="card-body">
+			<div class="card-title">
+        <div class="d-flex flex-row align-items-end justify-content-between">
+          <div class="d-inline-flex p-2"></div>
+          <div class="d-inline-flex p-2"><h2>Recommendations</h2></div>
+          <div class="d-inline-flex p-2"></div>
+        </div>
+      </div>
+        {% for rec in recommendations_text %}
+        <div class="card-text pt-1">
+          <div class="btn-group btn-group-toggle text-nowrap" data-toggle="buttons">
+            <label class="btn btn-outline-light btn-sm">
+              <input type="radio" name="options_{{ forloop.counter }}" id="option_{{ forloop.counter }}_1" autocomplete="off" checked>
+                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-check-circle-fill" fill="green" xmlns="http://www.w3.org/2000/svg">
+          				<path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+          			</svg>
+            </label>
+                    <h5> {{ rec }} </h5>
+            <label class="btn btn-outline-light btn-sm">
+              <input type="radio" name="options_{{ forloop.counter }}" id="option_{{ forloop.counter }}_2" autocomplete="off">
+                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-x-circle-fill" fill="red" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"/>
+                </svg>
+            </label>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
 		</div>
 	</div>
 </div>
@@ -133,3 +206,9 @@
 </div>
 {% endif %}
 {% endblock %}
+
+{% block scripts %}
+{{ block.super }}
+<script src="{% static 'budgetingapp/js/home.js' %}"></script>
+{% endblock %}
+

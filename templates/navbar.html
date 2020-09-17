@@ -10,14 +10,14 @@
 		</svg>
 		<span class="d-none d-lg-inline">Accounts</span>
 	</a>
-	<a class="nav-link" href="#"><svg width="1.75em" height="1.75em" viewBox="0 0 16 16" class="bi bi-info-circle-fill"
+	<a class="nav-link" href="https://www.saverlife.org/money-101"><svg width="1.75em" height="1.75em" viewBox="0 0 16 16" class="bi bi-info-circle-fill"
 			fill="currentColor" xmlns="http://www.w3.org/2000/svg">
 			<path fill-rule="evenodd"
 				d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM8 5.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
 		</svg>
 		<span class="d-none d-lg-inline" >Resources</span>
 	</a>
-	<a class="nav-link" href="#"><svg width="1.75em" height="1.75em" viewBox="0 0 16 16" class="bi bi-house-door-fill"
+	<a class="nav-link" href="{% url 'home' %}"><svg width="1.75em" height="1.75em" viewBox="0 0 16 16" class="bi bi-house-door-fill"
 			fill="currentColor" xmlns="http://www.w3.org/2000/svg">
 			<path
 				d="M6.5 10.995V14.5a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5v-7a.5.5 0 0 1 .146-.354l6-6a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 .146.354v7a.5.5 0 0 1-.5.5h-4a.5.5 0 0 1-.5-.5V11c0-.25-.25-.5-.5-.5H7c-.25 0-.5.25-.5.495z" />
@@ -25,18 +25,25 @@
 		</svg>
 		<span class="d-none d-lg-inline align-top">Home</span>
 	</a>
-	<a class="nav-link" href="#"><svg width="1.75em" height="1.75em" viewBox="0 0 16 16" class="bi bi-calculator"
+	<a class="nav-link" href="{% url 'budget' %}">
+    <svg width="1.75em" height="1.75em" viewBox="0 0 16 16" class="bi bi-calculator"
 			fill="currentColor" xmlns="http://www.w3.org/2000/svg">
 			<path fill-rule="evenodd"
 				d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm2 .5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-2zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zM4.5 9a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1zM4 12.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zM7.5 6a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1zM7 9.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm.5 2.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1zM10 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm.5 2.5a.5.5 0 0 0-.5.5v4a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 0-.5-.5h-1z" />
 		</svg>
 		<span class="d-none d-lg-inline align-top">Budget</span>
 	</a>
-	<a class="nav-link" href="#">
-		<svg width="1.75em" height="1.75em" viewBox="0 0 16 16" class="bi bi-person-fill" fill="currentColor"
-			xmlns="http://www.w3.org/2000/svg">
-			<path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
-		</svg>
-		<span class="d-none d-lg-inline align-top">User</span>
-	</a>
+  <div class="dropdown">
+    <button class="nav-link dropdown-toggle" data-toggle="dropdown">
+      <svg width="1.75em" height="1.75em" viewBox="0 0 16 16" class="bi bi-person-fill" fill="currentColor"
+        xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+      </svg>
+      <span class="d-none d-lg-inline align-top">User</span>
+    </button>
+    <ul class="dropdown-menu">
+      <li><a href="#">Account</a></li>
+      <li><a href="{% url 'logout' %}">Logout</a></li>
+    </ul>
+  </div>
 </nav>
