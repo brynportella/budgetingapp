@@ -106,6 +106,7 @@ def home(request):
     'cash' : cash,
     'bills' : bills,
   }
+  print(request)
   return render(request, 'home.html', context)
 
 def onboarding(request):

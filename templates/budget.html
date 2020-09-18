@@ -1,126 +1,34 @@
 {% extends 'base.html' %}
 {% load static %}
-
 {% block title %}Budget{% endblock %}
 
 {% block styles %}
 {{ block.super }}
 <link rel="stylesheet" href="{% static 'budgetingapp/css/budget.css' %}" />
 {% endblock %}
-
 {% block content %}
 {% if user.is_authenticated %}
 <div class="container-fluid">
-	<div class="card">
-		<div class="card-body">
-			<div class="card-title">
+  <div class="card">
+    <div class="card-body">
+      <div class="card-title">
         <div class="d-flex flex-row align-items-end justify-content-between">
           <div class="d-inline-flex p-2"></div>
-          <div class="d-inline-flex p-2"><h2>Income</h2></div>
-          <div class="d-inline-flex p-2"><a href="{% url newincome %}">
-            <svg height="30px" stroke="red" viewBox="0 0 60 60">
-              <circle cx="25" cy="25" r="22.5" fill="none" stroke-width="4.5"></circle>
-              <line x1="16.25" y1="25" x2="33.75" y2="25" stroke-width="5"></line>
-              <line x1="25" y1="16.25" x2="25" y2="33.75" stroke-width="5"></line>
-            </svg>
-          </a></div>
+          <div class="d-inline-flex p-2">
+            <h2>Budget</h2>
+          </div>
+          <div class="d-inline-flex p-2">
+            <a href="{% url 'newbudgetexpense' %}">
+              <svg height="30px" stroke="green" viewBox="0 0 60 60">
+                <circle cx="25" cy="25" r="22.5" fill="none" stroke-width="4.5"></circle>
+                <line x1="16.25" y1="25" x2="33.75" y2="25" stroke-width="5"></line>
+                <line x1="25" y1="16.25" x2="25" y2="33.75" stroke-width="5"></line>
+              </svg>
+            </a>
+          </div>
         </div>
       </div>
-			<div class="card-text">
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Name</th>
-              <th scope="col">Start Date</th>
-              <th scope="col">End Date</th>
-              <th scope="col">Amount</th>
-              <th scope="col">Frequency</th>
-              <th scope="col">Certainty</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for u_i in user_incomes %}
-            <tr>
-              <th scope="row">{{ forloop.counter }}</th>
-              <td>{{ u_i.income_name }}</td>
-              <td>{{ u_i.start_date|date:"M d Y" }}</td>
-              <td>{{ u_i.end_date|date:"M d Y" }}</td>
-              <td>{{ u_i.amount }}</td>
-              <td>{{ u_i.get_recurrence_freq_display }}</td>
-              <td>{{ u_i.get_certainty_display }}</td>
-              <!-- 
-              -->
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-			</div>
-		</div>
-	</div>
-</div>
-
-<div class="container-fluid">
-	<div class="card">
-		<div class="card-body">
-			<div class="card-title">
-        <div class="d-flex flex-row align-items-end justify-content-between">
-          <div class="d-inline-flex p-2"></div>
-          <div class="d-inline-flex p-2"><h2>Accounts</h2></div>
-          <div class="d-inline-flex p-2"><a href="{% url newaccount %}">
-            <svg height="30px" stroke="red" viewBox="0 0 60 60">
-              <circle cx="25" cy="25" r="22.5" fill="none" stroke-width="4.5"></circle>
-              <line x1="16.25" y1="25" x2="33.75" y2="25" stroke-width="5"></line>
-              <line x1="25" y1="16.25" x2="25" y2="33.75" stroke-width="5"></line>
-            </svg>
-          </a></div>
-        </div>
-			</div>
-			<div class="card-text">
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Name</th>
-              <th scope="col">Account Type</th>
-              <th scope="col">Balance</th>
-              <th scope="col">Interest</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for u_a in user_accounts %}
-            <tr>
-              <th scope="row">{{ forloop.counter }}</th>
-              <td>{{ u_a.account_name }}</td>
-              <td>{{ u_a.account_type }}</td>
-              <td>{{ u_a.account_balance }}</td>
-              <td>{{ u_a.interest_rate }}</td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-			</div>
-		</div>
-	</div>
-</div>
-
-<div class="container-fluid">
-	<div class="card">
-		<div class="card-body">
-			<div class="card-title">
-        <div class="d-flex flex-row align-items-end justify-content-between">
-          <div class="d-inline-flex p-2"></div>
-          <div class="d-inline-flex p-2"><h2>Budget</h2></div>
-          <div class="d-inline-flex p-2"><a href="{% url newbudgetexpense %}">
-            <svg height="30px" stroke="red" viewBox="0 0 60 60">
-              <circle cx="25" cy="25" r="22.5" fill="none" stroke-width="4.5"></circle>
-              <line x1="16.25" y1="25" x2="33.75" y2="25" stroke-width="5"></line>
-              <line x1="25" y1="16.25" x2="25" y2="33.75" stroke-width="5"></line>
-            </svg>
-          </a></div>
-        </div>
-      </div>
-			<div class="card-text">
+      <div class="card-text">
         <table class="table">
           <thead>
             <tr>
@@ -145,25 +53,116 @@
               <td>{{ u_b.get_recurrence_freq_display }}</td>
               <td>{{ u_b.start_date|date:"M d Y" }}</td>
               <td>{{ u_b.end_date|date:"M d Y" }}</td>
-              <!-- 
-              -->
             </tr>
             {% endfor %}
           </tbody>
         </table>
-			</div>
-		</div>
-	</div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <div class="card-title">
+        <div class="d-flex flex-row align-items-end justify-content-between">
+          <div class="d-inline-flex p-2"></div>
+          <div class="d-inline-flex p-2">
+            <h2>Income</h2>
+          </div>
+          <div class="d-inline-flex p-2"><a href="{% url 'newincome' %}">
+              <svg height="30px" stroke="red" viewBox="0 0 60 60">
+                <circle cx="25" cy="25" r="22.5" fill="none" stroke-width="4.5"></circle>
+                <line x1="16.25" y1="25" x2="33.75" y2="25" stroke-width="5"></line>
+                <line x1="25" y1="16.25" x2="25" y2="33.75" stroke-width="5"></line>
+              </svg>
+            </a></div>
+        </div>
+      </div>
+      <div class="card-text">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Name</th>
+              <th scope="col">Start Date</th>
+              <th scope="col">End Date</th>
+              <th scope="col">Amount</th>
+              <th scope="col">Frequency</th>
+              <th scope="col">Certainty</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for u_i in user_incomes %}
+            <tr>
+              <th scope="row">{{ forloop.counter }}</th>
+              <td>{{ u_i.income_name }}</td>
+              <td>{{ u_i.start_date|date:"M d Y" }}</td>
+              <td>{{ u_i.end_date|date:"M d Y" }}</td>
+              <td>{{ u_i.amount }}</td>
+              <td>{{ u_i.get_recurrence_freq_display }}</td>
+              <td>{{ u_i.get_certainty_display }}</td>
+
+
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>
-
-
+<div class="container-fluid">
+  <div class="card">
+    <div class="card-body">
+      <div class="card-title">
+        <div class="d-flex flex-row align-items-end justify-content-between">
+          <div class="d-inline-flex p-2"></div>
+          <div class="d-inline-flex p-2">
+            <h2>Accounts</h2>
+          </div>
+          <div class="d-inline-flex p-2"><a href="{% url 'newaccount' %}">
+              <svg height="30px" stroke="red" viewBox="0 0 60 60">
+                <circle cx="25" cy="25" r="22.5" fill="none" stroke-width="4.5"></circle>
+                <line x1="16.25" y1="25" x2="33.75" y2="25" stroke-width="5"></line>
+                <line x1="25" y1="16.25" x2="25" y2="33.75" stroke-width="5"></line>
+              </svg>
+            </a></div>
+        </div>
+      </div>
+      <div class="card-text">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Name</th>
+              <th scope="col">Account Type</th>
+              <th scope="col">Balance</th>
+              <th scope="col">Interest</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for u_a in user_accounts %}
+            <tr>
+              <th scope="row">{{ forloop.counter }}</th>
+              <td>{{ u_a.account_name }}</td>
+              <td>{{ u_a.account_type }}</td>
+              <td>{{ u_a.account_balance }}</td>
+              <td>{{ u_a.interest_rate }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
 {% else %}
 This is an unauthenticated user
 {% endif %}
 {% endblock %}
 
+
 {% block scripts %}
 {{ block.super }}
 <script src="{% static 'budgetingapp/js/budget.js' %}"></script>
 {% endblock %}
-

@@ -43,6 +43,7 @@ urlpatterns = [
     path('onboarding.html', views.onboarding, name='onboarding'), 
     path('budget.html', budget.views.budgetpage, name='budget'), 
     path('goals/<pk>/', goals.views.GoalUpdate.as_view()), 
+   # path('goals.html', goals.views.goalspage, name='goals'),
     path('new-goals.html', goals.views.GoalCreate.as_view(), name='newgoal'), 
     path('new-income.html', budget.views.IncomeCreate.as_view(), name='newincome'), 
     path('new-budget-expense.html', budget.views.BudgetExpenseCreate.as_view(), name='newbudgetexpense'),
