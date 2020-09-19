@@ -42,6 +42,8 @@ def get_anticipated_transaction_occurences(anticipated_transaction, start_date, 
             else:
                 number_of_days = current_occurence.day - 14
                 current_occurence = get_last_day_of_month(current_occurence)+timedelta(days=number_of_days)
+        elif recurrence_freq == 5:
+            current_occurence = current_occurence.replace(year = current_occurence.year + 1) 
         else:
             break
         bussiness_day_occurence = get_closest_business_day(current_occurence)
@@ -159,3 +161,4 @@ def is_pay_day(user):
         if len(occurrences) >= 1:
             return True
     return False
+

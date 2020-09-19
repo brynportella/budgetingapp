@@ -55,6 +55,21 @@ class TestBudgetExpenseServices(TestCase):
                                     expense_type = internet_expense_type, \
                                     expense_name = "Internet expense name", \
                                     id = 100)
+        """ 
+        Internet Budget Expense (id=100) 
+        "Today"- 1 (or the 27) if we are at the end of the month until 3*365 days 
+        Annually 
+        """
+        internet_budget_expense = BudgetExpense.objects.create(\
+                                    user = test_user, \
+                                    amount = 40.00, \
+                                    recurrence_freq = 5, \
+                                    importance = 1, \
+                                    end_date = today_start_date + timedelta(days= 3*365), \
+                                    start_date = today_start_date - timedelta(days = 1), \
+                                    expense_type = car_payment_expense_type, \
+                                    expense_name = "Annual expense name", \
+                                    id = 150)
 
         """ 
         Rent Budget Expense (id=200)
@@ -167,6 +182,7 @@ class TestBudgetExpenseServices(TestCase):
                                     expense_type = grocery_expense_type, \
                                     expense_name = "Grocery expense name",\
                                     id = 400)
+        
         """ Incomes """
         """
         Same day income 
@@ -233,7 +249,8 @@ class TestBudgetExpenseServices(TestCase):
         actual_result = get_all_upcoming_budget_expenses(user = user)
         for ele in actual_result:
             print(ele)
-        expected_result = [ BudgetExpense.objects.get(id=100), 
+        expected_result = [ BudgetExpense.objects.get(id=100),
+                            BudgetExpense.objects.get(id=150), 
                             BudgetExpense.objects.get(id=200), 
                             BudgetExpense.objects.get(id=600), 
                             BudgetExpense.objects.get(id=700),
@@ -378,7 +395,39 @@ class TestBudgetExpenseServices(TestCase):
             print(r)
         print()
         self.assertEquals(expected_dates, result.get(expense))
+    
 
+    def test_annual_occurences(self):
+        """
+        Expense annually 
+        """
+        print()
+        print("Test Annual Expense")
+        start_date = timezone.now()
+        end_date = start_date.replace(year=start_date.year+2)
+        expense = BudgetExpense.objects.get(id = 150)
+
+        expected_dates = []
+        expected_date = expense.start_date
+        expected_date = expected_date.replace(year = expected_date.year+1)
+        expected_dates.append(expected_date)
+        expected_date = expected_date.replace(year = expected_date.year+1)
+        expected_dates.append(expected_date)
+
+
+        print("EXPECTED")
+        print("==========")
+        for d in expected_dates:
+            print(d)
+
+        result = get_anticipated_transaction_occurences(expense, start_date, end_date)
+        print()
+        print("Actual Result")
+        print("============")
+        for r in result.get(expense):
+            print(r)
+        print()
+        self.assertEquals(expected_dates, result.get(expense))
     
     """
     def test_get_all_occurrences_within_timeframe(self):
