@@ -16,5 +16,8 @@ CREATE USER budgetingappuser WITH password 'password';
 ALTER ROLE budgetingappuser SET client_encoding TO 'utf8';
 ALTER ROLE budgetingappuser SET default_transaction_isolation TO 'read committed';
 ALTER ROLE budgetingappuser SET timezone to 'UTC'; 
+ALTER ROLE budgetingappuser CREATEDB;
 
-GRANT ALL PRIViLEGES ON DATABASE budgetingapp TO budgetingappuser;
+GRANT ALL PRIVILEGES ON DATABASE budgetingapp TO budgetingappuser;
+
+

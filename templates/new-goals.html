@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load tz %}
 
 {% block title %}Goals{% endblock %}
 
@@ -51,6 +52,7 @@
       <div class="tab">
         <h3>Great Goal! Lets talk about that</h3>
         <p>
+          
           {{ form.end_date.errors }}
           {{ form.end_date.label_tag }}
           {{ form.end_date }}

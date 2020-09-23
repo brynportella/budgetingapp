@@ -18,3 +18,11 @@ class AccountCreate(CreateView):
       obj.save()
       return redirect('budget')
 
+def accounts_page(request):
+  if request.user.is_authenticated:
+    user = request.user
+    user_accounts = Account.objects.all()
+    context = {
+      'user_accounts' : user_accounts
+    }
+  return render(request, 'accounts.html', context)

@@ -1,0 +1,79 @@
+<!--- templates/accounts.html -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Accounts{% endblock %}
+{% block content %}
+
+{% if user.is_authenticated %}
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-body">
+            <div class="card-title">
+                <div class="d-flex flex-row align-items-end justify-content-between">
+                    <div class="d-inline-flex p-2"></div>
+                    <div class="d-inline-flex p-2">
+                        <h2>Accounts</h2>
+                    </div>
+                    <div class="d-inline-flex p-2"><a href="{% url 'newaccount' %}">
+                            <svg height="30px" stroke="red" viewBox="0 0 60 60">
+                                <circle cx="25" cy="25" r="22.5" fill="none" stroke-width="4.5"></circle>
+                                <line x1="16.25" y1="25" x2="33.75" y2="25" stroke-width="5"></line>
+                                <line x1="25" y1="16.25" x2="25" y2="33.75" stroke-width="5"></line>
+                            </svg>
+                        </a></div>
+                </div>
+            </div>
+            <div class="card-text">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Account Type</th>
+                            <th scope="col">Balance</th>
+                            <th scope="col">Interest</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for u_a in user_accounts %}
+                        <tr>
+                            <th scope="row">{{ forloop.counter }}</th>
+                            <td>{{ u_a.account_name }}</td>
+                            <td>{{ u_a.account_type }}</td>
+                            <td>{{ u_a.account_balance }}</td>
+                            <td>{{ u_a.interest_rate }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-body">
+            <input id="start_date" type="datetime">
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="card">
+    <div class="card-body">
+        <div class="card-title">
+            <h5>You are not logged in</h5>
+        </div>
+        <div class="card-text">
+            <a class="btn btn-link" href="{% url 'login' %}">Login</a>
+            <a class="btn btn-link" href="{% url 'signup' %}">Sign Up</a>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+{{ block.super }}
+<script src="{% static 'accounts/js/accounts.js' %}"></script>
+{% endblock %}

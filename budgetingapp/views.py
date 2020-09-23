@@ -10,22 +10,13 @@ from .forms import OnboardingForm, choices
 from accounts.models import AccountType, Account, AccountEntry
 from budget.models import (AnticipatedTransaction, ExpenseType, BudgetExpense,
                            Income, IncomeToAccount, BudgetExpenseToAccount)
+from budget import services
 # from goals.model import # TODO Need goals
 
+from goals.models import Goal
 import datetime
+from datetime import timedelta
 
-######################################################################
-##### DEBUG #####
-######################################################################
-##### WE WILL REPLACE THIS WITH GOALS MODEL #####
-##### I DO NOT KNOW IF THESE FIELDS WILL BE USED #####
-class TempGoal:
-  def __init__(self, id_num, name, value, goal):
-    self.id = id_num
-    self.name = name
-    self.value = value
-    self.goal = goal
-    self.percentage = int(100*value / goal)
 
 def test(request):
   context = {}
@@ -35,67 +26,36 @@ def test2(request):
   context = {}
   return render(request, 'test2.html', context)
 
-# TODO: This should probably be tied to the class itself...
-RecurrenceFreqString = {
-  AnticipatedTransaction.RecurrenceFreq.ONCE : "once",
-  AnticipatedTransaction.RecurrenceFreq.WEEKLY : "weekly",
-  AnticipatedTransaction.RecurrenceFreq.BIWEEKLY : "biweekly",
-  AnticipatedTransaction.RecurrenceFreq.MONTHLY : "monthly",
-  AnticipatedTransaction.RecurrenceFreq.TWICE_A_MONTH : "twice a month",
-}
-
-# TODO: This should also probably be tied to class
-RecurrenceFreqToNumTimesPerMonth = {
-  AnticipatedTransaction.RecurrenceFreq.ONCE : 1,
-  AnticipatedTransaction.RecurrenceFreq.WEEKLY : 4,
-  AnticipatedTransaction.RecurrenceFreq.BIWEEKLY : 2,
-  AnticipatedTransaction.RecurrenceFreq.MONTHLY : 1,
-  AnticipatedTransaction.RecurrenceFreq.TWICE_A_MONTH : 2,
-}
-
-# TODO: We should make this flexible to handle any time period
-def budgets_to_monthly(budgets):
-  now = timezone.now() # TODO: Need to make this the client timezone
-  s = 0
-  for budget in budgets:
-    # TODO: This logic is not all technically correct
-    if budget.start_date <= now <= budget.end_date:
-      s += RecurrenceFreqToNumTimesPerMonth[budget.recurrence_freq]*budget.amount
-  return s
-
-
-######################################################################
-##### END DEBUG #####
-######################################################################
-
-
 
 def home(request):
   user = request.user
   if not user.is_authenticated:
     return render(request, 'home.html')
   # DEBUG: All placeholders
+   # Goals
+  goals = Goal.objects.filter(user=user).order_by('start_date')[:3]
+  print(goals)
+  print(len(goals))
   # Pop-ups
-  is_pay_day = False
-  got_goals = True
-  got_bill = False
+  is_pay_day = services.is_pay_day(user = user)
+  got_goals = len(goals) > 0
+  got_bill = services.has_bills(user=user, start_date=timezone.now(), end_date= timezone.now()+timedelta(days=30))
   # Recommendations logic
   recommendations_text = [
     'Recommendation placeholder text 1',
     'Recommendation placeholder text 2',
     'Recommendation placeholder text 3',
   ]
-  # Goals
-  goals = [
-    TempGoal(1,'Save 100 Dollars', 25, 100),
-    TempGoal(2,'Pay Debt', 0.9*2000, 2000),
-    TempGoal(3,'Nice dinner out', 0.35*80, 80),
-  ]
+  goal_percentage_completion = []
+  for goal in goals:
+    current_goal_percentage = (goal.progress / goal.amount)*100
+    goal_percentage_completion.append(current_goal_percentage)
+
   # Get cash
   user_accounts = Account.objects.filter(user=user)
   cash = sum([ x.account_balance for x in user_accounts ])
   user_budget = BudgetExpense.objects.filter(user=user)
-  bills = budgets_to_monthly([ x for x in user_budget ])
+  bills = services.calculate_total_user_expense_value_in_timeperiod(user, timezone.now(), timezone.now()+timedelta(days=30))
   # Build contex
   context = {
     'is_pay_day' : is_pay_day,
@@ -105,6 +65,7 @@ def home(request):
     'goals': goals,
     'cash' : cash,
     'bills' : bills,
+    'goals_percentage_completion': goal_percentage_completion,
   }
   print(request)
   return render(request, 'home.html', context)

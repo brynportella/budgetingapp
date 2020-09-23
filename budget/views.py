@@ -3,6 +3,7 @@ from django.views.generic.edit import CreateView
 # from django.views.generic.edit import FormView
 from datetime import timedelta
 
+
 from accounts.models import AccountType, Account, AccountEntry
 from .models import (AnticipatedTransaction, ExpenseType, BudgetExpense,
                      Income, IncomeToAccount, BudgetExpenseToAccount)

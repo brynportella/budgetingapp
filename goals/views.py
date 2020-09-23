@@ -5,13 +5,6 @@ from .forms import NewGoalForm
 from .models import Goal
 import django.utils.timezone as timezone
 
-# TODO: I got really confused because the wireframes and the models in goals do not match... so I am just using the Goal model here but we might need to use GoalType as well
-
-# # Create your views here.
-def goalspage(request):
-    context = {}
-    return render(request, 'goals.html', context)
-
 class GoalCreate(CreateView):
     template_name = 'new-goals.html'
     model = Goal

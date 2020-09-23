@@ -162,3 +162,10 @@ def is_pay_day(user):
             return True
     return False
 
+def has_bills(user, start_date, end_date): 
+    expenses = get_all_occurences_of_all_expenses_for_dates(user=user, begin_date=start_date, finish_date=end_date)
+    for expense in expenses:
+            occurrences = expenses.get(expense)
+            if len(occurrences) >= 1:
+                return True
+    return False
