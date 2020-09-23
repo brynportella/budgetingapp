@@ -18,6 +18,8 @@ class AccountCreate(CreateView):
       obj.save()
       return redirect('budget')
 
+
+
 def accounts_page(request):
   if request.user.is_authenticated:
     user = request.user

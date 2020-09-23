@@ -31,11 +31,8 @@ def home(request):
   user = request.user
   if not user.is_authenticated:
     return render(request, 'home.html')
-  # DEBUG: All placeholders
    # Goals
   goals = Goal.objects.filter(user=user).order_by('start_date')[:3]
-  print(goals)
-  print(len(goals))
   # Pop-ups
   is_pay_day = services.is_pay_day(user = user)
   got_goals = len(goals) > 0
