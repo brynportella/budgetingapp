@@ -158,29 +158,9 @@
 					{% endif %}
 				</canvas>
 
-				<div>
-					{{goals}}
-					{{goals_percentage_completion}}
-					{{forloop.counter}}
-					{{goals_percentage_completion.1}}
-				</div>
 
 			</div>
-			<div class="progress">
-				{% if forloop.counter == 1 %}
-				<div class="progress-bar bg-success" role="progressbar"
-					style="width: {{ goals_percentage_completion.0 }} %"
-					aria-valuenow="{{ goals_percentage_completion.0 }}" aria-valuemin="0" aria-valuemax="100"></div>
-				{% elif forloop.counter == 2 %}
-				<div class="progress-bar bg-success" role="progressbar"
-					style="width: {{ goals_percentage_completion.1 }} %"
-					aria-valuenow="{{ goals_percentage_completion.1 }}" aria-valuemin="0" aria-valuemax="100"></div>
-				{% elif forloop.counter == 3 %}
-				<div class="progress-bar bg-success" role="progressbar"
-					style="width: {{ goals_percentage_completion.2 }} %"
-					aria-valuenow="{{ goals_percentage_completion.2 }}" aria-valuemin="0" aria-valuemax="100"></div>
-				{% endif %}
-			</div>
+
 			{% endfor %}
 		</div>
 	</div>
