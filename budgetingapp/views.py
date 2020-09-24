@@ -11,10 +11,9 @@ from accounts.models import AccountType, Account, AccountEntry
 from budget.models import (AnticipatedTransaction, ExpenseType, BudgetExpense,
                            Income, IncomeToAccount, BudgetExpenseToAccount)
 from budget import services
-# from goals.model import # TODO Need goals
-
 from goals.models import Goal
-import datetime
+from recommendations.models import Recommendation, RecommendationToUser
+
 from datetime import timedelta
 
 
@@ -38,11 +37,9 @@ def home(request):
   got_goals = len(goals) > 0
   got_bill = services.has_bills(user=user, start_date=timezone.now(), end_date= timezone.now()+timedelta(days=30))
   # Recommendations logic
-  recommendations_text = [
-    'Recommendation placeholder text 1',
-    'Recommendation placeholder text 2',
-    'Recommendation placeholder text 3',
-  ]
+  recommendations2user_list = RecommendationToUser.objects.filter(user=user)
+  # TODO: Snooze and date logic
+  recommendations_list = [ r.recommendation for r in recommendations2user_list[:3] ]
   goal_percentage_completion = []
   for goal in goals:
     current_goal_percentage = (goal.progress / goal.amount)*100
@@ -58,7 +55,7 @@ def home(request):
     'is_pay_day' : is_pay_day,
     'got_goals' : got_goals,
     'got_bill' : got_bill,
-    'recommendations_text': recommendations_text,
+    'recommendations_list': recommendations_list,
     'goals': goals,
     'cash' : cash,
     'bills' : bills,
