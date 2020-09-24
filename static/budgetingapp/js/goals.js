@@ -6,7 +6,7 @@ function hideCard(idText) {
 */
 $(function () {
   $("#id_end_date").datetimepicker({
-    format: 'd/m/Y H:i',
+    format: 'Y-m-d H:i',
   });
 });
 
