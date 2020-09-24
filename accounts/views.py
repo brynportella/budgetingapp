@@ -2,7 +2,7 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import generic
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 
 from .models import Account
 
@@ -18,7 +18,14 @@ class AccountCreate(CreateView):
       obj.save()
       return redirect('budget')
 
-
+class AccountUpdate(UpdateView):
+  model = Account
+  template_name= 'account-update.html' 
+  success_url = 'accounts'
+  fields = ['account_name', 'account_balance', 'interest_rate', 'compound_periods_per_year', 'account_details', 'account_type' ]
+  def form_valid(self, form):
+    form.save()
+    return redirect('accounts')
 
 def accounts_page(request):
   if request.user.is_authenticated:

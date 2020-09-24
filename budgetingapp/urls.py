@@ -52,5 +52,7 @@ urlpatterns = [
     path('test/', views.test), 
     path('accounts/', accounts.views.accounts_page, name='accounts'),
     path('resources/', resources.views.ResourceListView.as_view(), name='resources'),
-    path('budget/expense/<pk>/', budget.views.BudgetExpenseUpdate.as_view(), name="updatebudgetexpense")
+    path('budget/expense/<pk>/', budget.views.BudgetExpenseUpdate.as_view(), name="updatebudgetexpense"),
+    path('budget/income/<pk>/', budget.views.IncomeUpdate.as_view(), name= 'updateincome'),
+    path('accounts/<pk>', accounts.views.AccountUpdate.as_view(), name= 'updateaccount')
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

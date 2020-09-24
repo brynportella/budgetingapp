@@ -1,15 +1,19 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Budget Expense{% endblock %}
+{% block title %}Account Edit{% endblock %}
 
 {% block content %}
 {% if user.is_authenticated %}
+<div class = "card">
+    <div class = "card-body"> 
 <form method="post">  
     {% csrf_token %}  
     {{ form.as_p  }}  
     <input type="submit" value="Save">  
 </form>  
+</div>
+</div>
 {% else %}
 <div class="card">
 	<div class="card-body">

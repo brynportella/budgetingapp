@@ -102,8 +102,7 @@
               <td>{{ u_i.amount }}</td>
               <td>{{ u_i.get_recurrence_freq_display }}</td>
               <td>{{ u_i.get_certainty_display }}</td>
-
-
+              <td><form action='income/{{u_i.id}}'><button class="btn-light" type="submit">Update</button></form></td>
             </tr>
             {% endfor %}
           </tbody>

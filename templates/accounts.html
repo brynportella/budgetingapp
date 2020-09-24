@@ -43,6 +43,7 @@
                             <td>{{ u_a.account_type }}</td>
                             <td>{{ u_a.account_balance }}</td>
                             <td>{{ u_a.interest_rate }}</td>
+                            <td><form action="{{u_a.id}}"><button class="btn-light">Update</button></form></td>
                         </tr>
                         {% endfor %}
                     </tbody>

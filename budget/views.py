@@ -42,7 +42,15 @@ class BudgetExpenseUpdate(UpdateView):
     form.save()
     return redirect('budget')
 
-
+class IncomeUpdate(UpdateView):
+  model = Income
+  template_name= 'income-update.html' 
+  success_url = 'budget'
+  fields = ['start_date', 'end_date','recurrence_freq', 'amount', 'income_name', 'certainty']
+  def form_valid(self, form):
+    form.save()
+    return redirect('budget')
+    
 # Create your views here.
 def budgetpage(request):
   context = {}
