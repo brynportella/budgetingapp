@@ -2,7 +2,7 @@
 from django.urls import reverse_lazy
 from django.views import generic
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic.base import TemplateView
 from django.utils import timezone
 
@@ -101,7 +101,7 @@ def onboarding(request):
             'veteran': False
       }"""
       # redirect to a new URL:
-      return HttpResponseRedirect('home.html')
+      return redirect('home')
   else:
     form = OnboardingForm()
   return render(request, 'onboarding.html', {'form': form})

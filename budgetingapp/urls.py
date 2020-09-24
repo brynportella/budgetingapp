@@ -23,6 +23,7 @@ from django.contrib.staticfiles.storage import staticfiles_storage
 from django.views.generic.base import RedirectView
 
 from . import views
+import users.views
 import accounts.views
 import budget.views
 import goals.views
@@ -43,7 +44,6 @@ urlpatterns = [
     path('onboarding/', views.onboarding, name='onboarding'), 
     path('budget/', budget.views.budgetpage, name='budget'), 
     path('goals/<pk>/', goals.views.GoalUpdate.as_view()), 
-   # path('goals.html', goals.views.goalspage, name='goals'),
     path('new-goals/', goals.views.GoalCreate.as_view(), name='newgoal'), 
     path('new-income/', budget.views.IncomeCreate.as_view(), name='newincome'), 
     path('new-budget-expense/', budget.views.BudgetExpenseCreate.as_view(), name='newbudgetexpense'),
@@ -51,4 +51,3 @@ urlpatterns = [
     path('test/', views.test), 
     path('accounts/', accounts.views.accounts_page, name='accounts')
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-    # path('signup.html', accounts.views.SignUp.as_view(), name='signup'),

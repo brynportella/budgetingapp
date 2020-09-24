@@ -27,6 +27,7 @@ class BudgetExpenseCreate(CreateView):
     fields = ['start_date', 'recurrence_freq', 'amount', 'expense_name', 'expense_type', 'importance']
     success_url = 'budget'
     def form_valid(self, form):
+      print("THINGS")
       obj = form.save(commit=False)
       obj.user = self.request.user
       obj.end_date = obj.start_date + timedelta(days=365*1000)
