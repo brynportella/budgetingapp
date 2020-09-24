@@ -29,3 +29,5 @@ class Goal(models.Model):
     user = models.ForeignKey(CustomUser, on_delete = models.CASCADE)
     start_date = models.DateTimeField(default = timezone.now)
     end_date = models.DateTimeField()
+    def __str__(self):
+        return self.goal_type.__str__() + ": "+self.user.__str__()
