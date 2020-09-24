@@ -9,14 +9,17 @@ class GoalCreate(CreateView):
     template_name = 'new-goals.html'
     model = Goal
     fields = [ 'goal_type', 'goal_reason', 'amount', 'end_date' ]
-    success_url = 'home.html'
+    success_url = 'home'
     def form_valid(self, form):
       obj = form.save(commit=False)
       obj.user = self.request.user
       obj.start_date = timezone.now()
       obj.progress = 0.0
       obj.save()
-      return redirect('home.html')
+      return redirect('home')
+    # def form_invalid(self, form):
+    #   print(form)
+    #   import pdb; pdb.set_trace()
 
 class GoalUpdate(UpdateView):
     template_name = 'goals.html'
