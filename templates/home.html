@@ -191,8 +191,8 @@
 					</div>
 				</div>
 				{% for rec in recommendations_list %}
-				<div id="rec{{ forloop.counter }}" class="card-text pt-1">
-					<div class="row justify-content-left">
+				<div id="rec{{ forloop.counter }}" class="rec-tab card-text pt-1">
+					<div class="row justify-content-between border m-2 p-2">
 						<a class="btn btn-outline-light btn-sm" href="{{ rec.recommendation_link }}">
 							<svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-check-circle-fill"
 								fill="green" xmlns="http://www.w3.org/2000/svg">
@@ -201,7 +201,7 @@
 							</svg>
 						</a>
 						<h5> {{ rec.recommendation_description }} </h5>
-						<button class="btn btn-outline-light btn-sm" onclick="hideCard('rec{{ forloop.counter }}')" href="#">
+						<button class="btn btn-outline-light btn-sm" onclick="updateTabs('rec{{ forloop.counter }}')" href="#">
 							<svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-x-circle-fill" fill="red"
 								xmlns="http://www.w3.org/2000/svg">
 								<path fill-rule="evenodd"

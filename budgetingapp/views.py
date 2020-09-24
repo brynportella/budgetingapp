@@ -39,7 +39,7 @@ def home(request):
   # Recommendations logic
   recommendations2user_list = RecommendationToUser.objects.filter(user=user)
   # TODO: Snooze and date logic
-  recommendations_list = [ r.recommendation for r in recommendations2user_list[:3] ]
+  recommendations_list = [ r.recommendation for r in recommendations2user_list ]
   goal_percentage_completion = []
   for goal in goals:
     current_goal_percentage = (goal.progress / goal.amount)*100

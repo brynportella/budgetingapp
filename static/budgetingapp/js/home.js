@@ -18,10 +18,7 @@ $(document).ready(function(){
   }
   document.getElementById('goodTimeText').innerHTML = msg;
   for (var i = 1; i <= 3; i++) { // TODO: Figure out how to make this not hard coded...
-    console.log('goalValue' + i)
     var goalVal = document.getElementById('goalValue' + i).innerHTML;
-    console.log(goalVal)
-     
     drawGoalSpeedometer('goalProgress' + i, goalVal);
   }
 });
@@ -509,7 +506,7 @@ function drawGoalSpeedometer(canvasId, targetValue) {
     iTargetSpeed = 100;
   }
     
-  console.log('Target: ' + targetValue);
+  // console.log('Target: ' + targetValue);
   
   var canvas = document.getElementById(canvasId),
       options = null;
@@ -542,6 +539,48 @@ function drawGoalSpeedometer(canvasId, targetValue) {
   } else {
     alert("Canvas not supported by your browser!");
   }
+}
+
+/////////////////////////////////////////////////////////////
+// Display
+/////////////////////////////////////////////////////////////
+
+function showTabs(tabs) { // sTabs = shownTabs, aTabs = availableTabs
+  for (var tabId in tabs) {
+      console.log(tabId);
+      if (tabs[tabId] === 0) {
+        document.getElementById(tabId).style.display = "inline";
+      } else {
+        document.getElementById(tabId).style.display = "none";
+      }
+  }
+}
+
+var tab_html_arr = document.getElementsByClassName("rec-tab");
+var tabs = {};
+for (var i = 0; i < tab_html_arr.length; i++) {
+  var tabIdx = parseInt(i)+1; // Javascript issues
+  var tabId = "rec" + tabIdx;
+  if (i < 3) {
+    tabs[tabId] = 0;
+  } else {
+    tabs[tabId] = 1;
+  }
+}
+console.log(tab_html_arr);
+console.log(tabs);
+showTabs(tabs)
+
+function updateTabs(tabId) {
+  tabs[tabId] = 2;
+  for (var tabId in tabs) {
+      console.log(tabId);
+      if (tabs[tabId] === 1) {
+        tabs[tabId] = 0;
+        break;
+      }
+  }
+  showTabs(tabs);
 }
 
 
