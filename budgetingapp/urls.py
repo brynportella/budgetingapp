@@ -26,6 +26,7 @@ from . import views
 import accounts.views
 import budget.views
 import goals.views
+import resources.views
 
 
 # path('favicon.ico', RedirectView.as_view(url=staticfiles_storage.url('img/favicon.ico'))),
@@ -49,6 +50,7 @@ urlpatterns = [
     path('new-budget-expense/', budget.views.BudgetExpenseCreate.as_view(), name='newbudgetexpense'),
     path('new-account/', accounts.views.AccountCreate.as_view(), name='newaccount'),
     path('test/', views.test), 
-    path('accounts/', accounts.views.accounts_page, name='accounts')
+    path('accounts/', accounts.views.accounts_page, name='accounts'),
+    path('resources/', resources.views.ResourceListView.as_view(), name='resources')
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     # path('signup.html', accounts.views.SignUp.as_view(), name='signup'),
