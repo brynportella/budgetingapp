@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}New Budget Expense{% endblock %}
+{% block title %}Update Income{% endblock %}
 
 {% block styles %}
 {{ block.super }}
@@ -13,17 +13,23 @@
 <div class="card">
   <div class="card-body">
     <div class="card-title">
-      <h2>New Budget Expense<h2>
+      <h2>Edit Budget Expense<h2>
     </div>
+    <!-- 
+    <form method="post">{% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Save">
+    </form>
+     -->
     <div class="card-text">
       <form id="regForm" action="" method="post">
       {% csrf_token %}
       
       <!-- One "tab" for each step in the form: -->
-      <h3>Good to plan for expenses!</h3>
+      
       {{ form.non_field_errors }}
       <div class="tab">
-        <h4>When do you expect to see this expense?</h4>
+        <h4>Edit when the expense begins:</h4>
         <p>
           {{ form.start_date.errors }}
           {{ form.start_date.label_tag }}
@@ -31,7 +37,7 @@
         </p>
       </div>
       <div class="tab">
-        <h3>What's the amount?</h3>
+        <h3>Edit the amount:</h3>
         <p>
           {{ form.amount.errors }}
           {{ form.amount.label_tag }}
@@ -39,7 +45,7 @@
         </p>
       </div>
       <div class="tab">
-        <h3>What do you want to name this expense?</h3>
+        <h3>Edit the name of the expense: </h3>
         <p>
           {{ form.expense_name.errors }}
           {{ form.expense_name.label_tag }}
@@ -47,7 +53,7 @@
         </p>
       </div>
       <div class="tab">
-        <h3>Is this recurring? How frequently do you expect to get this?</h3>
+        <h3>Edit the intervals for which this expense occurs:</h3>
         <p>
           {{ form.recurrence_freq.errors }}
           {{ form.recurrence_freq.label_tag }}
@@ -55,15 +61,7 @@
         </p>
       </div>
       <div class="tab">
-        <h3>How would you categorize this expense?</h3>
-        <p>
-          {{ form.expense_type.errors }}
-          {{ form.expense_type.label_tag }}
-          {{ form.expense_type }}
-        </p>
-      </div>
-      <div class="tab">
-        <h3>How important is this expense?</h3>
+        <h3>Edit the importance of the expense:</h3>
         <p>
           {{ form.importance.errors }}
           {{ form.importance.label_tag }}
@@ -71,14 +69,7 @@
         </p>
       </div>
 
-      <div class="tab">
-        <h3>Edit the end date of this expense?</h3>
-        <p>
-          {{ form.end_date.errors }}
-          {{ form.end_date.label_tag }}
-          {{ form.end_date }}
-        </p>
-      </div>
+
       <div style="overflow:auto;">
         <div style="float:right;">
           <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
@@ -88,8 +79,6 @@
       
       <!-- Circles which indicates the steps of the form: -->
       <div style="text-align:center;margin-top:40px;">
-        <span class="step"></span>
-        <span class="step"></span>
         <span class="step"></span>
         <span class="step"></span>
         <span class="step"></span>
@@ -112,6 +101,5 @@ This is an unauthenticated user
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>
 <script src="{% static 'budgetingapp/js/tabs.js' %}"></script>
-<script src="{% static 'budgetingapp/js/newbudgetexpense.js' %}"></script>
+<script src="{% static 'budgetingapp/js/newincome.js' %}"></script>
 {% endblock %}
-

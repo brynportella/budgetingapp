@@ -51,5 +51,6 @@ urlpatterns = [
     path('new-account/', accounts.views.AccountCreate.as_view(), name='newaccount'),
     path('test/', views.test), 
     path('accounts/', accounts.views.accounts_page, name='accounts'),
-    path('resources/', resources.views.ResourceListView.as_view(), name='resources')
+    path('resources/', resources.views.ResourceListView.as_view(), name='resources'),
+    path('budget/expense/<pk>/', budget.views.BudgetExpenseUpdate.as_view(), name="updatebudgetexpense")
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -321,27 +321,7 @@ function drawTextMarkers(options) {
     innerTickX = gaugeOptions.radius - (Math.cos(degToRad(iTick)) * gaugeOptions.radius);
     innerTickY = gaugeOptions.radius - (Math.sin(degToRad(iTick)) * gaugeOptions.radius);
 
-    // Some cludging to center the values (TODO: Improve)
-    /*
-    if (iTick <= 10) {
-      options.ctx.fillText(iTickToPrint, (options.center.X - gaugeOptions.radius - 12) + innerTickX,
-          (gaugeOptions.center.Y - gaugeOptions.radius - 12) + innerTickY + 5);
-    } else if (iTick < 50) {
-      options.ctx.fillText(iTickToPrint, (options.center.X - gaugeOptions.radius - 12) + innerTickX - 5,
-          (gaugeOptions.center.Y - gaugeOptions.radius - 12) + innerTickY + 5);
-    } else if (iTick < 90) {
-      options.ctx.fillText(iTickToPrint, (options.center.X - gaugeOptions.radius - 12) + innerTickX,
-          (gaugeOptions.center.Y - gaugeOptions.radius - 12) + innerTickY);
-    } else if (iTick === 90) {
-      options.ctx.fillText(iTickToPrint, (options.center.X - gaugeOptions.radius - 12) + innerTickX + 4,
-          (gaugeOptions.center.Y - gaugeOptions.radius - 12) + innerTickY);
-    } else if (iTick < 145) {
-      options.ctx.fillText(iTickToPrint, (options.center.X - gaugeOptions.radius - 12) + innerTickX + 10,
-          (gaugeOptions.center.Y - gaugeOptions.radius - 12) + innerTickY);
-    } else {
-    }
-    */
-      options.ctx.fillText(iTickToPrint,
+      options.ctx.fillText(iTickToPrint+"%",
                            (options.center.X - gaugeOptions.radius - 12) + 1.*innerTickX,
                            (gaugeOptions.center.Y - gaugeOptions.radius - 12) + innerTickY - 3);
 

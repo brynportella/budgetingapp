@@ -19,7 +19,7 @@ class GoalType(models.Model):
     is_private = models.BooleanField()
     user = models.ForeignKey(CustomUser, null = True, blank = True, on_delete = models.CASCADE)
     def __str__(self):
-        return self.goal_name
+        return GoalType.GoalCategory(self.goal_category).label+": "+self.goal_name
 
 class Goal(models.Model):
     goal_type = models.ForeignKey(GoalType, on_delete  = models.RESTRICT)

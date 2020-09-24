@@ -19,7 +19,7 @@
           </div>
           <div class="d-inline-flex p-2">
             <a href="{% url 'newbudgetexpense' %}">
-              <svg height="30px" stroke="green" viewBox="0 0 60 60">
+              <svg height="30px" stroke="#503787" viewBox="0 0 60 60">
                 <circle cx="25" cy="25" r="22.5" fill="none" stroke-width="4.5"></circle>
                 <line x1="16.25" y1="25" x2="33.75" y2="25" stroke-width="5"></line>
                 <line x1="25" y1="16.25" x2="25" y2="33.75" stroke-width="5"></line>
@@ -40,6 +40,7 @@
               <th scope="col">Frequency</th>
               <th scope="col">Start Date</th>
               <th scope="col">End Date</th>
+              <th scope="col"></th>
             </tr>
           </thead>
           <tbody>
@@ -53,6 +54,7 @@
               <td>{{ u_b.get_recurrence_freq_display }}</td>
               <td>{{ u_b.start_date|date:"M d Y" }}</td>
               <td>{{ u_b.end_date|date:"M d Y" }}</td>
+              <td><form action='expense/{{u_b.id}}'><button class="btn-light" type="submit">Update</button></form></td>
             </tr>
             {% endfor %}
           </tbody>
@@ -69,7 +71,7 @@
             <h2>Income</h2>
           </div>
           <div class="d-inline-flex p-2"><a href="{% url 'newincome' %}">
-              <svg height="30px" stroke="red" viewBox="0 0 60 60">
+              <svg height="30px" stroke="#503787" viewBox="0 0 60 60">
                 <circle cx="25" cy="25" r="22.5" fill="none" stroke-width="4.5"></circle>
                 <line x1="16.25" y1="25" x2="33.75" y2="25" stroke-width="5"></line>
                 <line x1="25" y1="16.25" x2="25" y2="33.75" stroke-width="5"></line>
@@ -120,7 +122,7 @@
             <h2>Accounts</h2>
           </div>
           <div class="d-inline-flex p-2"><a href="{% url 'newaccount' %}">
-              <svg height="30px" stroke="red" viewBox="0 0 60 60">
+              <svg height="30px" stroke="#503787" viewBox="0 0 60 60">
                 <circle cx="25" cy="25" r="22.5" fill="none" stroke-width="4.5"></circle>
                 <line x1="16.25" y1="25" x2="33.75" y2="25" stroke-width="5"></line>
                 <line x1="25" y1="16.25" x2="25" y2="33.75" stroke-width="5"></line>

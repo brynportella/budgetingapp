@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 # from django.views.generic.edit import FormView
 from datetime import timedelta
 
@@ -27,12 +27,21 @@ class BudgetExpenseCreate(CreateView):
     fields = ['start_date', 'recurrence_freq', 'amount', 'expense_name', 'expense_type', 'importance']
     success_url = 'budget'
     def form_valid(self, form):
-      print("THINGS")
       obj = form.save(commit=False)
       obj.user = self.request.user
       obj.end_date = obj.start_date + timedelta(days=365*1000)
       obj.save()
       return redirect('budget')
+
+class BudgetExpenseUpdate(UpdateView):
+  model = BudgetExpense
+  template_name = 'budget-expense-update.html'
+  success_url='budget'
+  fields = ['start_date', 'recurrence_freq', 'amount', 'expense_name', 'expense_type', 'importance', 'end_date']
+  def form_valid(self, form):
+    form.save()
+    return redirect('budget')
+
 
 # Create your views here.
 def budgetpage(request):

@@ -9,20 +9,20 @@ class GoalCreate(CreateView):
     template_name = 'new-goals.html'
     model = Goal
     fields = [ 'goal_type', 'goal_reason', 'amount', 'end_date' ]
-    success_url = 'home.html'
+    success_url = 'home'
     def form_valid(self, form):
       obj = form.save(commit=False)
       obj.user = self.request.user
       obj.start_date = timezone.now()
       obj.progress = 0.0
       obj.save()
-      return redirect('home.html')
+      return redirect('home')
 
 class GoalUpdate(UpdateView):
     template_name = 'goals.html'
     model = Goal
     fields = [ 'goal_type', 'goal_reason', 'amount', 'progress', 'start_date', 'end_date' ]
-    success_url = '/home.html'
+    success_url = '/home'
 
 # #  Did not know about CreateView when I made this -- refer to AccountCreate or IncomeCreate to redo this -- SORRY (Stephen)
 # def newgoal(request):
