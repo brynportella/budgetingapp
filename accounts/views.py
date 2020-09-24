@@ -23,7 +23,7 @@ class AccountCreate(CreateView):
 def accounts_page(request):
   if request.user.is_authenticated:
     user = request.user
-    user_accounts = Account.objects.all()
+    user_accounts = Account.objects.filter(user=user)
     context = {
       'user_accounts' : user_accounts
     }
