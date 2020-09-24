@@ -33,14 +33,13 @@ To run the server:
 >python manage.py runserver
 ```
 
-## Features
-### Home Page
+## Remaining Steps:
+- Add much more additional testing 
+- Add delete functionality on Accounts, Income, Expenses
+- Add better support for serving up static files
+- Take note of sections with TODO labels 
 
-### Budget
-
-
-### Accounts
-
-## Needed Additions
-#### Testing 
-    - Unit tests exists 
+## Additional Notes/Explanation: 
+- The models Budget to Accounts and Incomes to Accounts should allow users to indicate how a budget/income source might be split among different accounts
+- The model Account Entries should be used to track historic changes to the accounts
+ 
