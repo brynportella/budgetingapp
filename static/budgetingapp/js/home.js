@@ -151,7 +151,9 @@ function drawBackground(options) {
     var i = 0;
 
   options.ctx.globalAlpha = 0.2;
-  options.ctx.fillStyle = "rgb(193, 16, 137)";
+  options.ctx.fillStyle = "rgb(210, 161, 198)";
+  // options.ctx.fillStyle = "rgb(193, 16, 137)";
+  // options.ctx.fillStyle = "rgb(255, 255, 255)";
 
   // Draw semi-transparent circles
   for (i = 170; i < 180; i++) {
@@ -309,7 +311,7 @@ function drawTextMarkers(options) {
   applyDefaultContextSettings(options);
 
   // Font styling
-  options.ctx.font = 'italic 15px sans-serif';
+  options.ctx.font = 'italic 14px sans-serif';
   options.ctx.textBaseline = 'top';
   options.ctx.fillStyle = 'rgb(0,0,0)';
 
@@ -321,9 +323,9 @@ function drawTextMarkers(options) {
     innerTickX = gaugeOptions.radius - (Math.cos(degToRad(iTick)) * gaugeOptions.radius);
     innerTickY = gaugeOptions.radius - (Math.sin(degToRad(iTick)) * gaugeOptions.radius);
 
-      options.ctx.fillText(iTickToPrint+"%",
-                           (options.center.X - gaugeOptions.radius - 12) + 1.*innerTickX,
-                           (gaugeOptions.center.Y - gaugeOptions.radius - 12) + innerTickY - 3);
+    options.ctx.fillText((iTickToPrint*1).toString() + "%",
+                         (options.center.X - gaugeOptions.radius - 28) + 1.1*innerTickX,
+                         (gaugeOptions.center.Y - gaugeOptions.radius - 12) + innerTickY - 3);
 
     // MPH increase by 10 every 20 degrees
     iTickToPrint += 10; // Math.round(2160 / 9);
@@ -362,23 +364,23 @@ function drawSpeedometerColourArc(options) {
 
   // Arc goes from 10 to 170
   let colorArcParams = [
-      [ 10, "rgb(255, 0, 0)" ],
-      [ 20, "rgb(239, 16, 11)" ],
-      [ 30, "rgb(223, 32, 22)" ],
-      [ 40, "rgb(207, 48, 33)" ],
-      [ 50, "rgb(191, 64, 44)" ],
-      [ 60, "rgb(175, 80, 56)" ],
-      [ 70, "rgb(159, 96, 67)" ],
-      [ 80, "rgb(143, 112, 78)" ],
-      [ 90, "rgb(128, 128, 89)" ],
-      [ 100, "rgb(112, 143, 89)" ],
-      [ 110, "rgb(96, 159, 76)" ],
-      [ 120, "rgb(80, 175, 64)" ],
-      [ 130, "rgb(64, 191, 51)" ],
-      [ 140, "rgb(48, 207, 38)" ],
-      [ 150, "rgb(32, 223, 25)" ],
-      [ 160, "rgb(16, 239, 13)" ],
-      [ 170, "rgb(0, 255, 0)" ],
+      [ 10,  "rgb(255, 255, 255)" ],
+      [ 20,  "rgb(239, 239, 239)" ],
+      [ 30,  "rgb(223, 223, 223)" ],
+      [ 40,  "rgb(207, 207, 207)" ],
+      [ 50,  "rgb(191, 191, 191)" ],
+      [ 60,  "rgb(175, 175, 175)" ],
+      [ 70,  "rgb(159, 159, 159)" ],
+      [ 80,  "rgb(143, 143, 143)" ],
+      [ 90,  "rgb(128, 128, 128)" ],
+      [ 100, "rgb(112, 112, 112)" ],
+      [ 110, "rgb( 96,  96,  96)" ],
+      [ 120, "rgb( 80,  80,  80)" ],
+      [ 130, "rgb( 64,  64,  64)" ],
+      [ 140, "rgb( 48,  48,  48)" ],
+      [ 150, "rgb( 32,  32,  32)" ],
+      [ 160, "rgb( 16,  16,  16)" ],
+      [ 170, "rgb(  0,   0,   0)" ],
   ]
   for ( var i = 0; i < colorArcParams.length; i++ ) {
     drawSpeedometerPart(options, 1.0, colorArcParams[i][1], colorArcParams[i][0]);
@@ -444,13 +446,16 @@ function drawNeedle(options) {
         endNeedleY = gaugeOptions.radius - (Math.sin(iSpeedAsAngleRad) * gaugeOptions.radius),
         toX = (options.center.X - gaugeOptions.radius) + endNeedleX,
         toY = (gaugeOptions.center.Y - gaugeOptions.radius) + endNeedleY,
-        line = createLine(fromX, fromY, toX, toY, "rgb(255,0,0)", 5, 0.6);
+        backLine = createLine(fromX, fromY, toX, toY, "rgb(255, 255, 255)", 12, 0.6),
+        line = createLine(fromX, fromY, toX, toY, "rgb(193, 16, 137)", 9, 0.6);
 
+  drawLine(options, backLine);
   drawLine(options, line);
 
   // Two circle to draw the dial at the base (give its a nice effect?)
   // 96, 8, 70
   drawNeedleDial(options, 1.0, "rgb(255, 255, 255)", "rgb(255,255,255)");
+  // drawNeedleDial(options, 0.2, "rgb(210, 161, 198)", "rgb(210, 161, 198)");
   drawNeedleDial(options, 0.2, "rgb(193, 16, 137)", "rgb(193, 16, 137)");
   // drawNeedleDial(options, 0.6, "rgb(127, 127, 127)", "rgb(255,255,255)");
   // drawNeedleDial(options, 0.2, "rgb(127, 127, 127)", "rgb(127,127,127)");

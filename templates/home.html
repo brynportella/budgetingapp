@@ -122,6 +122,7 @@
 		</a>
 	</div>
 </div>
+
 <div class="container-fluid">
 	<div class="card">
 		<div class="card-body">
@@ -131,6 +132,7 @@
 					<div class="d-inline-flex p-2">
 						<h2 id="goal_loc">Goals</h2>
 					</div>
+          <!-- Add button -->
 					<div class="d-inline-flex p-2"><a href="{% url 'newgoal' %}">
 							<svg height="30px" stroke="#503787" viewBox="0 0 60 60">
 								<circle cx="25" cy="25" r="22.5" fill="none" stroke-width="4.5"></circle>
@@ -139,27 +141,36 @@
 							</svg>
 						</a></div>
 				</div>
-
 			</div>
+
 			{% for goal in goals %}
 			<div class="card-text">
-				<h5>{{ goal.goal_type.category }} {{goal.goal_type.goal_name}}</h5>
-				You have reached ${{ goal.progress }} of your goal of ${{ goal.amount }}. <a class="btn btn-secondary"
-					href="goals/{{ goal.id }}/">Update Progress</a>
-				<canvas id="goalProgress{{ forloop.counter }}" width="440" height="220">
-					{% if forloop.counter == 1 %}
-					Canvas not available. Progress: <span
-						id="goalValue{{ forloop.counter }}">{{ goals_percentage_completion.0 }}</span> percent.
-					{% elif forloop.counter == 2 %}
-					Canvas not available. Progress: <span
-						id="goalValue{{ forloop.counter }}">{{ goals_percentage_completion.1 }}</span> percent.
-					{% elif forloop.counter == 3 %}
-					Canvas not available. Progress: <span
-						id="goalValue{{ forloop.counter }}">{{ goals_percentage_completion.2 }}</span> percent.
-					{% endif %}
-				</canvas>
-
-
+        <div class="flex-col border m-2 p-2">
+          <div class="d-flex justify-content-center">
+            <h5>{{ goal.goal_type.category }} {{goal.goal_type.goal_name}}</h5>
+          </div>
+          <div class="d-flex justify-content-center">
+            You have reached ${{ goal.progress }} of your goal of ${{ goal.amount }}.
+          </div>
+          <div class="d-flex justify-content-end">
+            <a class="btn btn-secondary"
+              href="goals/{{ goal.id }}/">Update Progress</a>
+          </div>
+          <div class="d-flex justify-content-center">
+            <canvas id="goalProgress{{ forloop.counter }}" width="440" height="220">
+              {% if forloop.counter == 1 %}
+              Canvas not available. Progress: <span
+                id="goalValue{{ forloop.counter }}">{{ goals_percentage_completion.0 }}</span> percent.
+              {% elif forloop.counter == 2 %}
+              Canvas not available. Progress: <span
+                id="goalValue{{ forloop.counter }}">{{ goals_percentage_completion.1 }}</span> percent.
+              {% elif forloop.counter == 3 %}
+              Canvas not available. Progress: <span
+                id="goalValue{{ forloop.counter }}">{{ goals_percentage_completion.2 }}</span> percent.
+              {% endif %}
+            </canvas>
+          </div>
+        </div>
 			</div>
 
 			{% endfor %}
