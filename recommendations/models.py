@@ -2,7 +2,14 @@ from django.db import models
 from users.models import CustomUser
 from django.utils import timezone
 
-# Create your models here.
+"""
+TODO: Add recommendation logic that informs assigning recommondations to users
+
+- Boolean fields that inform whether or not the user is assigned the rec.
+- Domain specific language that informs whether or not the user is assigned the rec.
+- Code  that informs whether or not the user is assigned the rec.
+
+"""
 class Recommendation(models.Model):
     recommendation_name = models.CharField(max_length = 150)
     recommendation_description = models.TextField()

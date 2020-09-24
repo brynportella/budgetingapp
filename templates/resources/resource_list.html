@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Resources{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<div class="container-fluid">
+{% for resource in object_list %}
+  <div class="card">
+    <div class="card-body">
+      <div class="card-title"><h5>{{resource.resource_title}}</h5>
+	  </div>
+	  <a href = "{{resource.resource_url}}">
+	  <div class="card d-block mx-auto" style="width: 18rem">
+       <img src="{{resource.image_url}}" class="card-img-top  img-fluid" alt="{{resource.resource_description}}" />
+	</div>
+</a>
+	</div>
+  </div>
+{% endfor %}
+</div> 
+{% else %}
+<div class="card">
+	<div class="card-body">
+		<div class="card-title">
+			<h5>You are not logged in</h5>
+		</div>
+		<div class="card-text">
+			<a class="btn btn-link" href="{% url 'login' %}">Login</a>
+			<a class="btn btn-link" href="{% url 'signup' %}">Sign Up</a>
+		</div>
+	</div>
+</div>
+{% endif %}
+{% endblock %}
