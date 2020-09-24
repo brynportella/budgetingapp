@@ -10,7 +10,7 @@ $(document).ready(function(){
   var hrs = now.getHours();
   var msg = "";
   if (hrs < 12 && hrs >=  0){
-    msg = ("Good Morning!");
+    msg = ("Good Morning");
   } else if (hrs < 17){
     msg = ("Good afternoon");
   } else {
